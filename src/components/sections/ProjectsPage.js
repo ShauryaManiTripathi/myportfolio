@@ -223,7 +223,7 @@ const ProjectsPage = () => {
       title: 'CartGenie',
       description: 'AI-powered e-commerce platform delivering an intuitive shopping experience with complete speech-to-speech functionality and a real-time shopping assistant.',
       image: cartgenieimage,
-      category: 'web',
+      categories: ['web', 'Agentic'],
       technologies: ['Ollama','Flask', 'LangChain','Agentic', 'RAG', 'OpenVoice'],
       liveLink: 'https://92c3-14-139-197-66.ngrok-free.app/',
       githubLink: 'https://github.com/ShauryaManiTripathi/CartGenie',
@@ -235,7 +235,7 @@ const ProjectsPage = () => {
       title: 'Gemini Coder',
       description: 'A sophisticated Claude-Coder alternative powered by Google Gemini, built entirely from scratch with zero external frameworks. Features an intelligent file-context system , CLI based AI assitant.',
       image: geminicoderimage,
-      category: 'mobile',
+      categories: ['mobile', 'Agentic'],
       technologies: ['Python','Google GenAI', 'Agentic System', 'SDE', 'RAG'],
       liveLink: '#',
       githubLink: 'https://github.com/ShauryaManiTripathi/CartGenie---Final',
@@ -247,7 +247,7 @@ const ProjectsPage = () => {
       title: 'Portfolio Website',
       description: 'A personal portfolio website showcasing projects and skills with smooth animations and responsive design.',
       image: portfolioImage,
-      category: 'web',
+      categories: ['web', 'design'],
       technologies: ['React', 'Framer Motion', 'Emotion CSS', 'React Router'],
       liveLink: 'https://myportfolio-khaki-pi.vercel.app/',
       githubLink: 'https://github.com/ShauryaManiTripathi/myportfolio',
@@ -259,7 +259,7 @@ const ProjectsPage = () => {
       title: 'Food Delivery UI Kit',
       description: 'A comprehensive UI kit for food delivery applications with multiple screen designs and components.',
       image: 'https://via.placeholder.com/600x400',
-      category: 'design',
+      categories: ['design', 'mobile'],
       technologies: ['Figma', 'Adobe XD', 'Sketch', 'Principle'],
       liveLink: '#',
       githubLink: '#',
@@ -271,7 +271,7 @@ const ProjectsPage = () => {
       title: 'Weather Dashboard',
       description: 'A weather forecast application with location detection, interactive maps, and detailed weather analytics.',
       image: 'https://via.placeholder.com/600x400',
-      category: 'web',
+      categories: ['web'],
       technologies: ['JavaScript', 'Chart.js', 'OpenWeather API', 'SCSS'],
       liveLink: 'https://example.com',
       githubLink: '#',
@@ -283,7 +283,7 @@ const ProjectsPage = () => {
       title: 'Fitness Tracker',
       description: 'A mobile fitness tracking application with workout routines, progress charts, and health metrics.',
       image: 'https://via.placeholder.com/600x400',
-      category: 'mobile',
+      categories: ['mobile', 'design'],
       technologies: ['React Native', 'HealthKit', 'Google Fit API', 'Chart.js'],
       liveLink: '#',
       githubLink: 'https://github.com/username/fitness-tracker',
@@ -294,7 +294,7 @@ const ProjectsPage = () => {
   
   const filteredProjects = filter === 'all' 
     ? projectsData 
-    : projectsData.filter(project => project.category === filter);
+    : projectsData.filter(project => project.categories.includes(filter));
   
   return (
     <Section>

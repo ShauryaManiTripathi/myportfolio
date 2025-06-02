@@ -84,7 +84,7 @@ const Footer = () => {
         </FooterText>
         
         <FooterText>
-          This portfolio is Built with self developed GenAI <a href="https://github.com/shauryamanitripathi/gemini-coder-cli" target="_blank" rel="noopener noreferrer">agentic tool under 1 hour. (click for github link)</a><br></br>
+          This portfolio is Built with assistance of self developed GenAI <a href="https://github.com/shauryamanitripathi/gemini-coder-cli" target="_blank" rel="noopener noreferrer">agentic tool in 2 days. (click for github link)</a><br></br>
           using React, Emotion CSS, and Framer Motion.
         </FooterText>
       </FooterContent>

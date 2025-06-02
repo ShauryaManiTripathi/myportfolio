@@ -5,6 +5,16 @@ import { FiDownload, FiUser, FiCode, FiBook } from 'react-icons/fi';
 import { Section, SectionTitle, Avatar, Card, Button, ExternalLink, TagsContainer, Tag, fadeInUpVariants } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 
+const ResponsiveContainer = styled.div`
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  
+  @media (max-width: 480px) {
+    padding: 0 0.5rem;
+  }
+`;
+
 const AboutGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -12,6 +22,12 @@ const AboutGrid = styled(motion.div)`
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 1rem;
+    padding: 0 1rem;
   }
 `;
 
@@ -20,12 +36,37 @@ const ProfileSection = styled(motion.div)`
   flex-direction: column;
   align-items: center;
   text-align: center;
+  position: sticky;
+  top: 2rem;
+  height: fit-content;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  
+  @media (max-width: 768px) {
+    position: static;
+    margin: 1rem 0;
+    padding: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+  }
 `;
 
 const Name = styled.h2`
   font-size: 1.8rem;
   font-weight: 700;
   margin: 1.5rem 0 0.5rem;
+  
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1.4rem;
+    margin: 1rem 0 0.5rem;
+  }
 `;
 
 const Title = styled.h3`
@@ -33,12 +74,30 @@ const Title = styled.h3`
   color: ${({ theme }) => theme.secondary};
   font-weight: 500;
   margin-bottom: 1.5rem;
+  
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 const InfoCard = styled(Card)`
   margin-bottom: 1.5rem;
   width: 100%;
   text-align: left;
+  
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+  }
 `;
 
 const InfoItem = styled.div`
@@ -50,24 +109,62 @@ const InfoItem = styled.div`
   svg {
     color: ${({ theme }) => theme.primary};
     font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+    
+    svg {
+      font-size: 1rem;
+    }
   }
 `;
 
 const InfoLabel = styled.span`
   font-weight: 600;
   min-width: 80px;
+  
+  @media (max-width: 480px) {
+    min-width: 60px;
+    font-size: 0.9rem;
+  }
 `;
 
 const InfoValue = styled.span`
   color: ${({ theme }) => theme.secondary};
+  word-break: break-word;
+  
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
 `;
 
-const BioContent = styled.div``;
+const BioContent = styled.div`
+  @media (max-width: 480px) {
+    padding: 0 0.5rem;
+  }
+`;
 
 const BioText = styled.p`
   line-height: 1.8;
   margin-bottom: 1.5rem;
   font-size: 1.1rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
 `;
 
 const GradientHello = styled.span`
@@ -154,7 +251,7 @@ const skills = [
   'C++', 'Java', 'Python', 'JavaScript', 'TypeScript', 'Go',
   'HTML', 'CSS', 'React', 'Node.js', 'Express', 
   'MongoDB', 'GraphQL', 'Flask',
-  'Flutter', 'TensorFlow',
+  'Flutter', 'TensorFlow','Docker',
   'Git'
 ];
   
@@ -225,7 +322,7 @@ const skills = [
           
           <BioContent as={motion.div} variants={fadeInUpVariants} custom={1}>
             <BioText>
-              <GradientHello theme={theme}>What if I told you</GradientHello> that the developer you're looking for has already built <SubtleEmphasis theme={theme}>Agentic/Speech-to-speech powered e-commerce solutions,CLI Agentic Assistents, mental health chatbots, and low level system applications</SubtleEmphasis> – all while maintaining a passion for clean, scalable code? I'm Shaurya Mani Tripathi, and I don't just write code; <SubtleEmphasis theme={theme}>I solve problems that matter</SubtleEmphasis>.
+              <GradientHello theme={theme}>What if I told you</GradientHello> that the developer you're looking for has already built <SubtleEmphasis theme={theme}>Agentic/Speech-to-speech powered e-commerce solutions,WebApps,Mobile Apps,CLI Agentic Assistants, mental health chatbots, and low level system applications</SubtleEmphasis> – all while maintaining a passion for clean, scalable code? I'm Shaurya Mani Tripathi, and I don't just write code; <SubtleEmphasis theme={theme}>I solve problems that matter</SubtleEmphasis>.
             </BioText>
             
             <BioText>
