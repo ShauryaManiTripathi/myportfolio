@@ -12,6 +12,8 @@ const useCrossPageScroll = () => {
   // Use refs to persist values across renders
   const overScrollProgressRef = useRef(0);
   const scrollTimeoutRef = useRef(null);
+  const decayIntervalRef = useRef(null);
+  const isDecayingRef = useRef(false);
   const isNavigatingRef = useRef(false);
 
   // Define page order for navigation using useMemo to prevent re-creation
@@ -46,10 +48,59 @@ const useCrossPageScroll = () => {
     overScrollProgressRef.current = 0;
     setProgress(0);
     setShowOverlay(false);
+    isDecayingRef.current = false;
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current);
       scrollTimeoutRef.current = null;
     }
+    if (decayIntervalRef.current) {
+      clearInterval(decayIntervalRef.current);
+      decayIntervalRef.current = null;
+    }
+  }, []);
+
+  // Function to start progress decay
+  const startProgressDecay = useCallback(() => {
+    // Clear any existing decay interval
+    if (decayIntervalRef.current) {
+      clearInterval(decayIntervalRef.current);
+    }
+    
+    isDecayingRef.current = true;
+    
+    // Start decay animation - reduce progress gradually
+    decayIntervalRef.current = setInterval(() => {
+      if (overScrollProgressRef.current > 0) {
+        // Variable decay rate: faster for higher percentages
+        const currentProgress = overScrollProgressRef.current;
+        let decayAmount;
+        
+        if (currentProgress > 80) {
+          decayAmount = 4; // Faster decay for high progress
+        } else if (currentProgress > 50) {
+          decayAmount = 3; // Medium decay for medium progress
+        } else {
+          decayAmount = 2; // Slower decay for low progress
+        }
+        
+        overScrollProgressRef.current = Math.max(0, overScrollProgressRef.current - decayAmount);
+        setProgress(overScrollProgressRef.current);
+        
+        // Hide overlay when progress reaches 0
+        if (overScrollProgressRef.current === 0) {
+          setShowOverlay(false);
+          isDecayingRef.current = false;
+          clearInterval(decayIntervalRef.current);
+          decayIntervalRef.current = null;
+        }
+      } else {
+        // Cleanup if progress is already 0
+        setShowOverlay(false);
+        isDecayingRef.current = false;
+        clearInterval(decayIntervalRef.current);
+        decayIntervalRef.current = null;
+      }
+    }, 40); // 40ms intervals for smooth animation
   }, []);
 
   // Function to navigate to next page
@@ -92,21 +143,31 @@ const useCrossPageScroll = () => {
       if (isAtBottom) {
         const nextPage = getNextPage();
         if (nextPage) {
-          setShowOverlay(true);
-          
-          // Clear any existing timeout
-          if (scrollTimeoutRef.current) {
-            clearTimeout(scrollTimeoutRef.current);
+          // If we have any progress and are at bottom, show overlay
+          if (overScrollProgressRef.current > 0) {
+            setShowOverlay(true);
           }
           
-          // Start timeout to hide overlay if user stops scrolling
+          // Clear any existing timeout and decay since user is at bottom
+          if (scrollTimeoutRef.current) {
+            clearTimeout(scrollTimeoutRef.current);
+            scrollTimeoutRef.current = null;
+          }
+          if (decayIntervalRef.current) {
+            clearInterval(decayIntervalRef.current);
+            decayIntervalRef.current = null;
+            isDecayingRef.current = false;
+          }
+          
+          // Start timeout to trigger decay if user stops scrolling
           scrollTimeoutRef.current = setTimeout(() => {
-            if (overScrollProgressRef.current < 100) {
-              resetProgress();
+            if (overScrollProgressRef.current > 0 && overScrollProgressRef.current < 100 && !isNavigatingRef.current) {
+              startProgressDecay();
             }
-          }, 2000);
+          }, 800); // Start decay after 800ms of no activity
         }
       } else if (!isNearBottom) {
+        // User scrolled away from bottom - reset everything immediately
         resetProgress();
       }
     };
@@ -124,6 +185,15 @@ const useCrossPageScroll = () => {
         if (nextPage) {
           e.preventDefault();
           
+          // If decay is active, stop it and allow user to continue building progress
+          if (isDecayingRef.current) {
+            if (decayIntervalRef.current) {
+              clearInterval(decayIntervalRef.current);
+              decayIntervalRef.current = null;
+            }
+            isDecayingRef.current = false;
+          }
+          
           // Increase progress based on scroll intensity
           const scrollIntensity = Math.min(e.deltaY * 0.3, 8); // Cap the intensity
           overScrollProgressRef.current = Math.min(100, overScrollProgressRef.current + scrollIntensity);
@@ -133,6 +203,7 @@ const useCrossPageScroll = () => {
           // Navigate when progress reaches 100%
           if (overScrollProgressRef.current >= 100) {
             navigateToNextPage(nextPage);
+            return; // Exit early if navigating
           }
           
           // Clear timeout since user is actively scrolling
@@ -140,6 +211,13 @@ const useCrossPageScroll = () => {
             clearTimeout(scrollTimeoutRef.current);
             scrollTimeoutRef.current = null;
           }
+          
+          // Start new timeout for decay
+          scrollTimeoutRef.current = setTimeout(() => {
+            if (overScrollProgressRef.current > 0 && overScrollProgressRef.current < 100 && !isNavigatingRef.current) {
+              startProgressDecay();
+            }
+          }, 800); // Start decay after 800ms of inactivity
         }
       }
     };
@@ -191,13 +269,13 @@ const useCrossPageScroll = () => {
     };
 
     const handleTouchEnd = () => {
-      // Reset touch tracking
-      if (overScrollProgressRef.current < 100) {
+      // Start decay animation for incomplete progress
+      if (overScrollProgressRef.current > 0 && overScrollProgressRef.current < 100) {
         setTimeout(() => {
-          if (!isNavigatingRef.current && overScrollProgressRef.current < 100) {
-            resetProgress();
+          if (!isNavigatingRef.current && overScrollProgressRef.current > 0 && overScrollProgressRef.current < 100) {
+            startProgressDecay();
           }
-        }, 1000);
+        }, 800); // Same timeout as other handlers
       }
     };
 
@@ -218,8 +296,11 @@ const useCrossPageScroll = () => {
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
+      if (decayIntervalRef.current) {
+        clearInterval(decayIntervalRef.current);
+      }
     };
-  }, [getNextPage, navigateToNextPage, resetProgress]);
+  }, [getNextPage, navigateToNextPage, resetProgress, startProgressDecay]);
 
   // Reset when location changes
   useEffect(() => {

@@ -90,11 +90,12 @@ const CrossPageScrollOverlay = ({
   }
 
   // Calculate animation speed based on progress (faster as progress increases)
-  const animationSpeed = Math.max(0.4, 1.5 - (progress / 100) * 1.1);
+  const validProgress = Math.max(0, Math.min(100, progress || 0));
+  const animationSpeed = Math.max(0.4, 1.5 - (validProgress / 100) * 1.1);
 
   return (
     <AnimatePresence>
-      {showOverlay && (
+      {showOverlay && validProgress > 0 && (
         <OverlayContainer
           theme={theme}
           initial={{ y: 100, opacity: 0 }}
@@ -111,7 +112,7 @@ const CrossPageScrollOverlay = ({
             <ProgressBar
               theme={theme}
               initial={{ width: '0%' }}
-              animate={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
+              animate={{ width: `${validProgress}%` }}
               transition={{ type: 'spring', stiffness: 400, damping: 40 }}
             />
           </ProgressContainer>
@@ -134,7 +135,7 @@ const CrossPageScrollOverlay = ({
                 >
                   <FiArrowRight />
                 </motion.div>
-                <span>Continue to {nextPageName} • {Math.round(Math.max(0, Math.min(100, progress)))}% • Keep scrolling</span>
+                <span>Continue to {nextPageName} • {Math.round(validProgress)}% • Keep scrolling</span>
               </NextPageInfo>
             ) : (
               <NextPageInfo theme={theme}>
