@@ -5,7 +5,9 @@ import Header from './Header';
 import Footer from './Footer';
 import BackToTop from './BackToTop';
 import CustomCursor from './CustomCursor';
+import CrossPageScrollOverlay from './CrossPageScrollOverlay';
 import { useTheme } from '../../context/ThemeContext';
+import useCrossPageScroll from '../../hooks/useCrossPageScroll';
 
 const Main = styled(motion.main)`
   min-height: 100vh;
@@ -23,6 +25,14 @@ const PageContainer = styled(motion.div)`
 
 const Layout = ({ children }) => {
   const { theme } = useTheme();
+  
+  // Initialize cross-page scroll functionality
+  const {
+    showOverlay,
+    progress,
+    nextPageName,
+    isScrollingToNext
+  } = useCrossPageScroll();
   
   const pageVariants = {
     initial: {
@@ -62,6 +72,12 @@ const Layout = ({ children }) => {
       <Footer />
       <BackToTop />
       <CustomCursor />
+      <CrossPageScrollOverlay
+        showOverlay={showOverlay}
+        progress={progress}
+        nextPageName={nextPageName}
+        isScrollingToNext={isScrollingToNext}
+      />
     </>
   );
 };
