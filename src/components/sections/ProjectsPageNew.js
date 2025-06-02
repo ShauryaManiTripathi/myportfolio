@@ -1,0 +1,395 @@
+import React, { useState } from 'react';
+import styled from '@emotion/styled';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiExternalLink, FiGithub, FiFilter, FiArrowUpRight } from 'react-icons/fi';
+import { Section, SectionTitle, Card, Button, TagsContainer, Tag, ExternalLink, staggerContainerVariants, fadeInUpVariants } from '../../components/ui';
+import { useTheme } from '../../context/ThemeContext';
+
+const FilterContainer = styled(motion.div)`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  justify-content: center;
+`;
+
+const FilterButton = styled(motion.button)`
+  background-color: ${({ active, theme }) => active ? theme.primary : 'transparent'};
+  color: ${({ active, theme }) => active ? '#fff' : theme.text};
+  border: 2px solid ${({ active, theme }) => active ? theme.primary : theme.secondary};
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: ${({ active, theme }) => active ? theme.primary : `${theme.primary}20`};
+    border-color: ${({ theme }) => theme.primary};
+    color: ${({ active, theme }) => active ? '#fff' : theme.primary};
+  }
+`;
+
+const ProjectsGrid = styled(motion.div)`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ProjectCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid ${({ theme }) => `${theme.primary}20`};
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: ${({ theme }) => theme.primary};
+    box-shadow: 0 15px 40px ${({ theme }) => `${theme.primary}15`};
+  }
+  
+  &:hover .project-overlay {
+    opacity: 1;
+  }
+`;
+
+const ProjectImage = styled(motion.div)`
+  height: 200px;
+  background: linear-gradient(135deg, ${({ theme }) => `${theme.primary}20`}, ${({ theme }) => `${theme.accent}20`});
+  background-image: url(${({ image }) => image});
+  background-size: cover;
+  background-position: center;
+  margin: -1.5rem -1.5rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: ${({ theme }) => theme.primary};
+  font-weight: 500;
+  gap: 10px;
+`;
+
+const ProjectOverlay = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: ${({ theme }) => `${theme.primary}90`};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+`;
+
+const ProjectOverlayLinks = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const ProjectOverlayLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: ${({ theme }) => theme.background};
+  border-radius: 50%;
+  color: ${({ theme }) => theme.primary};
+  text-decoration: none;
+  transition: all 0.3s ease;
+  transform: scale(0.8);
+  
+  &:hover {
+    background: ${({ theme }) => theme.accent};
+    color: ${({ theme }) => theme.background};
+    transform: scale(1);
+  }
+`;
+
+const ProjectTitle = styled.h3`
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: ${({ theme }) => theme.text};
+`;
+
+const ProjectDescription = styled.p`
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  opacity: 0.9;
+`;
+
+const ProjectLinks = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-top: auto;
+`;
+
+const EnhancedProjectLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 8px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 2px solid;
+  
+  ${({ primary, theme }) => primary ? `
+    background: ${theme.primary};
+    color: ${theme.background};
+    border-color: ${theme.primary};
+    
+    &:hover {
+      background: ${theme.accent};
+      border-color: ${theme.accent};
+    }
+  ` : `
+    background: transparent;
+    color: ${theme.primary};
+    border-color: ${theme.primary};
+    
+    &:hover {
+      background: ${theme.primary};
+      color: ${theme.background};
+    }
+  `}
+`;
+
+const FeaturedBadge = styled.div`
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(135deg, ${({ theme }) => theme.primary}, ${({ theme }) => theme.accent});
+  color: ${({ theme }) => theme.background};
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 2;
+`;
+
+const SectionDescription = styled.p`
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  line-height: 1.6;
+`;
+
+const ProjectsPage = () => {
+  const { theme } = useTheme();
+  const [filter, setFilter] = useState('all');
+  
+  const categories = [
+    { id: 'all', name: 'All Projects' },
+    { id: 'web', name: 'Web Development' },
+    { id: 'mobile', name: 'Mobile Apps' },
+    { id: 'design', name: 'UI/UX Design' },
+  ];
+  
+  const projectsData = [
+    {
+      id: 1,
+      title: 'E-commerce Platform',
+      description: 'A full-stack e-commerce solution with React, Node.js, and MongoDB. Features include user authentication, payment integration, and admin dashboard.',
+      image: 'https://via.placeholder.com/600x400',
+      category: 'web',
+      technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Stripe'],
+      liveLink: 'https://example.com',
+      githubLink: 'https://github.com',
+      featured: true
+    },
+    {
+      id: 2,
+      title: 'Task Manager App',
+      description: 'A collaborative task management tool with real-time updates, drag-and-drop functionality, and team collaboration features.',
+      image: 'https://via.placeholder.com/600x400',
+      category: 'mobile',
+      technologies: ['React Native', 'Firebase', 'Redux', 'Socket.io'],
+      liveLink: 'https://example.com',
+      githubLink: 'https://github.com',
+      featured: true
+    },
+    {
+      id: 3,
+      title: 'Portfolio Website',
+      description: 'A personal portfolio website showcasing projects and skills with smooth animations and responsive design.',
+      image: 'https://via.placeholder.com/600x400',
+      category: 'web',
+      technologies: ['React', 'Framer Motion', 'Emotion CSS', 'React Router'],
+      liveLink: 'https://example.com',
+      githubLink: 'https://github.com',
+      featured: false
+    },
+    {
+      id: 4,
+      title: 'Food Delivery UI Kit',
+      description: 'A comprehensive UI kit for food delivery applications with multiple screen designs and components.',
+      image: 'https://via.placeholder.com/600x400',
+      category: 'design',
+      technologies: ['Figma', 'Adobe XD', 'Sketch', 'Principle'],
+      liveLink: 'https://example.com',
+      githubLink: 'https://github.com',
+      featured: false
+    },
+    {
+      id: 5,
+      title: 'Weather Dashboard',
+      description: 'A weather forecast application with location detection, interactive maps, and detailed weather analytics.',
+      image: 'https://via.placeholder.com/600x400',
+      category: 'web',
+      technologies: ['JavaScript', 'Chart.js', 'OpenWeather API', 'SCSS'],
+      liveLink: 'https://example.com',
+      githubLink: 'https://github.com',
+      featured: false
+    },
+    {
+      id: 6,
+      title: 'Fitness Tracker',
+      description: 'A mobile fitness tracking application with workout routines, progress charts, and health metrics.',
+      image: 'https://via.placeholder.com/600x400',
+      category: 'mobile',
+      technologies: ['React Native', 'HealthKit', 'Google Fit API', 'Chart.js'],
+      liveLink: 'https://example.com',
+      githubLink: 'https://github.com',
+      featured: false
+    },
+  ];
+  
+  const filteredProjects = filter === 'all' 
+    ? projectsData 
+    : projectsData.filter(project => project.category === filter);
+  
+  return (
+    <Section>
+      <SectionTitle>My Projects</SectionTitle>
+      <SectionDescription>
+        A collection of projects that showcase my skills and passion for creating 
+        meaningful digital experiences.
+      </SectionDescription>
+      
+      <FilterContainer
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <FiFilter style={{ fontSize: '1.2rem', marginRight: '0.5rem', color: theme.primary }} />
+        {categories.map(category => (
+          <FilterButton
+            key={category.id}
+            active={filter === category.id}
+            theme={theme}
+            onClick={() => setFilter(category.id)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {category.name}
+          </FilterButton>
+        ))}
+      </FilterContainer>
+      
+      <AnimatePresence mode="wait">
+        <ProjectsGrid
+          key={filter}
+          variants={staggerContainerVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+        >
+          {filteredProjects.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              theme={theme}
+              as={motion.div}
+              variants={fadeInUpVariants}
+              custom={index}
+              layout
+              whileHover={{ y: -10 }}
+              transition={{ duration: 0.3 }}
+            >
+              {project.featured && (
+                <FeaturedBadge theme={theme}>
+                  Featured
+                </FeaturedBadge>
+              )}
+              <ProjectImage 
+                theme={theme}
+                image={project.image}
+              >
+                <FiArrowUpRight size={24} />
+                <span>Project Preview</span>
+                <ProjectOverlay theme={theme} className="project-overlay">
+                  <ProjectOverlayLinks>
+                    <ProjectOverlayLink 
+                      href={project.liveLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      theme={theme}
+                    >
+                      <FiExternalLink size={18} />
+                    </ProjectOverlayLink>
+                    <ProjectOverlayLink 
+                      href={project.githubLink} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      theme={theme}
+                    >
+                      <FiGithub size={18} />
+                    </ProjectOverlayLink>
+                  </ProjectOverlayLinks>
+                </ProjectOverlay>
+              </ProjectImage>
+              
+              <ProjectTitle theme={theme}>{project.title}</ProjectTitle>
+              <ProjectDescription>{project.description}</ProjectDescription>
+              
+              <TagsContainer>
+                {project.technologies.map((tech, techIndex) => (
+                  <Tag key={techIndex}>{tech}</Tag>
+                ))}
+              </TagsContainer>
+              
+              <ProjectLinks>
+                <EnhancedProjectLink
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  primary="true"
+                  theme={theme}
+                >
+                  <FiExternalLink size={16} /> Live Demo
+                </EnhancedProjectLink>
+                <EnhancedProjectLink
+                  href={project.githubLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  theme={theme}
+                >
+                  <FiGithub size={16} /> GitHub
+                </EnhancedProjectLink>
+              </ProjectLinks>
+            </ProjectCard>
+          ))}
+        </ProjectsGrid>
+      </AnimatePresence>
+    </Section>
+  );
+};
+
+export default ProjectsPage;

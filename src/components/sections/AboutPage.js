@@ -1,0 +1,260 @@
+import React from 'react';
+import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
+import { FiDownload, FiUser, FiCode, FiBook } from 'react-icons/fi';
+import { Section, SectionTitle, Avatar, Card, Button, ExternalLink, TagsContainer, Tag, fadeInUpVariants } from '../../components/ui';
+import { useTheme } from '../../context/ThemeContext';
+
+const AboutGrid = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ProfileSection = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+`;
+
+const Name = styled.h2`
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.5rem;
+`;
+
+const Title = styled.h3`
+  font-size: 1.2rem;
+  color: ${({ theme }) => theme.secondary};
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+`;
+
+const InfoCard = styled(Card)`
+  margin-bottom: 1.5rem;
+  width: 100%;
+  text-align: left;
+`;
+
+const InfoItem = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  align-items: center;
+  
+  svg {
+    color: ${({ theme }) => theme.primary};
+    font-size: 1.2rem;
+  }
+`;
+
+const InfoLabel = styled.span`
+  font-weight: 600;
+  min-width: 80px;
+`;
+
+const InfoValue = styled.span`
+  color: ${({ theme }) => theme.secondary};
+`;
+
+const BioContent = styled.div``;
+
+const BioText = styled.p`
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+`;
+
+const ExperienceSection = styled(motion.div)`
+  margin-top: 2rem;
+`;
+
+const ExperienceCard = styled(Card)`
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid ${({ theme }) => theme.primary};
+`;
+
+const ExperienceHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+const ExperienceTitle = styled.h3`
+  font-size: 1.3rem;
+  font-weight: 600;
+`;
+
+const ExperienceCompany = styled.h4`
+  font-size: 1.1rem;
+  color: ${({ theme }) => theme.primary};
+  font-weight: 500;
+`;
+
+const ExperiencePeriod = styled.div`
+  background-color: ${({ theme }) => `${theme.primary}20`};
+  color: ${({ theme }) => theme.primary};
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+`;
+
+const ExperienceDescription = styled.p`
+  line-height: 1.6;
+  margin-top: 0.5rem;
+`;
+
+const AboutPage = () => {
+  const { theme } = useTheme();
+  
+  const personalInfo = [
+    { label: 'Age', value: '22' },
+    { label: 'Email', value: 'shaurya.deoria@gmail.com' },
+    { label: 'Phone', value: '+91 9454604042' },
+    { label: 'Location', value: 'Gorakhpur , UP' },
+  ];
+  
+const skills = [
+  'C++', 'Java', 'Python', 'JavaScript', 'TypeScript', 'Go',
+  'HTML', 'CSS', 'React', 'Node.js', 'Express', 
+  'MongoDB', 'GraphQL', 'Flask',
+  'Flutter', 'TensorFlow',
+  'Git'
+];
+  
+  const experiences = [
+    {
+      title: 'Senior Frontend Developer',
+      company: 'Tech Company',
+      period: '2022 - Present',
+      description: 'Developed and maintained complex web applications using React and TypeScript. Collaborated with cross-functional teams to implement new features and improve user experience.',
+    },
+    {
+      title: 'Frontend Developer',
+      company: 'Digital Agency',
+      period: '2020 - 2022',
+      description: 'Built responsive websites and web applications for various clients. Worked with designers to implement pixel-perfect interfaces and smooth animations.',
+    },
+    {
+      title: 'Web Developer Intern',
+      company: 'Startup',
+      period: '2019 - 2020',
+      description: 'Assisted in the development of the company website and internal tools. Learned modern web development techniques and best practices.',
+    },
+  ];
+  
+  return (
+    <>
+      <Section>
+        <SectionTitle>About Me</SectionTitle>
+        
+        <AboutGrid
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.1,
+              },
+            },
+          }}
+        >
+          <ProfileSection variants={fadeInUpVariants}>
+            <Avatar 
+              theme={theme}
+              size="180px"
+              src="/assets/pic.jpeg"
+              alt="Your Name"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+            />
+            
+            <Name>Your Name</Name>
+            <Title theme={theme}>Full-Stack Developer</Title>
+            
+            <Button primary whileHover={{ scale: 1.05 }}>
+              <FiDownload /> Download Resume
+            </Button>
+            
+            <InfoCard theme={theme} style={{ marginTop: '2rem' }}>
+              {personalInfo.map((info, index) => (
+                <InfoItem key={index} theme={theme}>
+                  <FiUser />
+                  <InfoLabel>{info.label}:</InfoLabel>
+                  <InfoValue theme={theme}>{info.value}</InfoValue>
+                </InfoItem>
+              ))}
+            </InfoCard>
+          </ProfileSection>
+          
+          <BioContent as={motion.div} variants={fadeInUpVariants} custom={1}>
+            <BioText>
+              Hello! I'm a passionate full-stack/Software developer. I specialize in React.js and Node.js, and I love creating
+              elegant solutions to complex problems.
+            </BioText>
+            
+            <BioText>
+              My journey in web development started during my college years when I built my first website.
+              Since then, I've worked with various technologies and frameworks, always eager to learn and
+              adapt to the ever-evolving tech landscape.
+            </BioText>
+            
+            <BioText>
+              I believe that great code is not just functional but also maintainable and scalable.
+              I strive to write clean, efficient code that provides the best user experience possible.
+            </BioText>
+            
+            <div>
+              <h3 style={{ fontSize: '1.4rem', marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
+                <FiCode style={{ marginRight: '0.5rem', color: theme.primary }} /> Skills & Technologies
+              </h3>
+              
+              <TagsContainer>
+                {skills.map((skill, index) => (
+                  <Tag key={index}>{skill}</Tag>
+                ))}
+              </TagsContainer>
+            </div>
+            
+            {/* <ExperienceSection>
+              <h3 style={{ fontSize: '1.4rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center' }}>
+                <FiBook style={{ marginRight: '0.5rem', color: theme.primary }} /> Experience
+              </h3>
+              
+              {experiences.map((exp, index) => (
+                <ExperienceCard key={index} theme={theme}>
+                  <ExperienceHeader>
+                    <div>
+                      <ExperienceTitle>{exp.title}</ExperienceTitle>
+                      <ExperienceCompany theme={theme}>{exp.company}</ExperienceCompany>
+                    </div>
+                    <ExperiencePeriod theme={theme}>{exp.period}</ExperiencePeriod>
+                  </ExperienceHeader>
+                  <ExperienceDescription>{exp.description}</ExperienceDescription>
+                </ExperienceCard>
+              ))}
+            </ExperienceSection> */}
+          </BioContent>
+        </AboutGrid>
+      </Section>
+    </>
+  );
+};
+
+export default AboutPage;
