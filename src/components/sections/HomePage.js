@@ -5,10 +5,14 @@ import { FiArrowDown, FiCode, FiExternalLink, FiZap, FiHeart, FiGithub, FiArrowU
 import { FaPalette } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
-import { Button, ExternalLink, Section, SectionTitle, Card, Grid, fadeInUpVariants, staggerContainerVariants } from '../../components/ui';
+import { Button, ExternalLink, Section, SectionTitle, Card, Grid, fadeInUpVariants, staggerContainerVariants, TagsContainer, Tag } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 import { FaFlutter } from "react-icons/fa6";
 import { BsFiletypeExe } from "react-icons/bs";
+
+import portfolioImage from '../../assets/images/portfoliov2.png';
+import cartgenieimage from '../../assets/images/cartgenie.png';
+import geminicoderimage from '../../assets/images/geminicoderv2.png';
 
 
 const HeroSection = styled(motion.section)`
@@ -192,7 +196,9 @@ const ViewAllButton = styled(motion.div)`
   justify-content: center;
 `;
 
-const EnhancedProjectCard = styled(Card)`
+const ProjectCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
   height: 100%;
   overflow: hidden;
   position: relative;
@@ -212,7 +218,12 @@ const EnhancedProjectCard = styled(Card)`
 const ProjectImage = styled(motion.div)`
   height: 200px;
   background: linear-gradient(135deg, ${({ theme }) => `${theme.primary}20`}, ${({ theme }) => `${theme.accent}20`});
+  background-image: url(${({ image }) => image});
+  background-size: cover;
+  background-position: center;
   margin: -1.5rem -1.5rem 1.5rem;
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -220,8 +231,6 @@ const ProjectImage = styled(motion.div)`
   color: ${({ theme }) => theme.primary};
   font-weight: 500;
   gap: 10px;
-  position: relative;
-  overflow: hidden;
 `;
 
 const ProjectOverlay = styled(motion.div)`
@@ -238,12 +247,12 @@ const ProjectOverlay = styled(motion.div)`
   transition: opacity 0.3s ease;
 `;
 
-const ProjectLinks = styled.div`
+const ProjectOverlayLinks = styled.div`
   display: flex;
   gap: 1rem;
 `;
 
-const ProjectLink = styled.a`
+const ProjectOverlayLink = styled.a`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -263,55 +272,28 @@ const ProjectLink = styled.a`
   }
 `;
 
-const ProjectContent = styled.div`
-  padding: 0 1.5rem 1.5rem;
-`;
-
 const ProjectTitle = styled.h3`
   font-size: 1.4rem;
+  font-weight: 600;
   margin-bottom: 1rem;
   color: ${({ theme }) => theme.text};
 `;
 
 const ProjectDescription = styled.p`
-  margin-bottom: 1.5rem;
   line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
   opacity: 0.9;
 `;
 
-const ProjectTech = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-`;
-
-const TechTag = styled.span`
-  background: ${({ theme }) => `${theme.primary}15`};
-  color: ${({ theme }) => theme.primary};
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  border: 1px solid ${({ theme }) => `${theme.primary}30`};
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.background};
-    transform: translateY(-2px);
-  }
-`;
-
-const ProjectActions = styled.div`
+const ProjectLinks = styled.div`
   display: flex;
   gap: 1rem;
+  margin-top: auto;
   flex-wrap: wrap;
-  align-items: center;
   
   @media (max-width: 480px) {
     flex-direction: column;
-    align-items: stretch;
     gap: 0.75rem;
   }
 `;
@@ -353,6 +335,19 @@ const EnhancedProjectLink = styled.a`
   `}
 `;
 
+const FeaturedBadge = styled.div`
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(135deg, ${({ theme }) => theme.primary}, ${({ theme }) => theme.accent});
+  color: ${({ theme }) => theme.background};
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 2;
+`;
+
 const HomePage = () => {
   const { theme } = useTheme();
   const [featuresRef, featuresInView] = useInView({
@@ -368,29 +363,38 @@ const HomePage = () => {
     {
       id: 1,
       title: 'CartGenie',
-      description: ' AI-driven e-commerce platform for intuitive shopping experience. Full Speech to Speech support, real-time shopping assitant.',
-      technologies: ['Flask', 'LangChain','Agentic', 'RAG', 'OpenVoice Engine'],
-      liveUrl: '#',
-      githubUrl: 'https://github.com/username/cartgenie',
+      description: 'AI-powered e-commerce platform delivering an intuitive shopping experience with complete speech-to-speech functionality and a real-time shopping assistant.',
+      image: cartgenieimage,
+      category: 'web',
+      technologies: ['Ollama','Flask', 'LangChain','Agentic', 'RAG', 'OpenVoice'],
+      liveLink: 'https://92c3-14-139-197-66.ngrok-free.app/',
+      githubLink: 'https://github.com/ShauryaManiTripathi/CartGenie---Final',
       downloadUrl: '#',
+      featured: true
     },
     {
       id: 2,
-      title: 'Task Management App',
-      description: 'A collaborative task management tool with real-time updates, drag-and-drop functionality, and team collaboration features.',
-      technologies: ['Vue.js', 'Express', 'Socket.io', 'PostgreSQL'],
-      liveUrl: '#',
-      githubUrl: 'https://github.com/username/task-manager',
-      downloadUrl: '#',
+      title: 'Gemini Coder',
+      description: 'A sophisticated Claude-Coder alternative powered by Google Gemini, built entirely from scratch with zero external frameworks. Features an intelligent file-context system , CLI based AI assitant.',
+      image: geminicoderimage,
+      category: 'mobile',
+      technologies: ['Python','Google GenAI', 'Agentic System', 'SDE', 'RAG'],
+      liveLink: '#',
+      githubLink: 'https://github.com/ShauryaManiTripathi/Gemini-Coder-CLI',
+      downloadUrl: 'https://github.com/ShauryaManiTripathi/Gemini-Coder-CLI/archive/refs/heads/main.zip',
+      featured: true
     },
     {
       id: 3,
-      title: 'Weather Dashboard',
-      description: 'A beautiful weather application with location-based forecasts, interactive maps, and detailed weather analytics.',
-      technologies: ['React', 'Chart.js', 'OpenWeather API', 'SCSS'],
-      liveUrl: '#',
-      githubUrl: '#',
-      downloadUrl: 'https://example.com/weather-app.zip',
+      title: 'Portfolio Website',
+      description: 'A personal portfolio website showcasing projects and skills with smooth animations and responsive design.',
+      image: portfolioImage,
+      category: 'web',
+      technologies: ['React', 'Framer Motion', 'Emotion CSS', 'React Router'],
+      liveLink: 'https://myportfolio-khaki-pi.vercel.app/',
+      githubLink: 'https://github.com/ShauryaManiTripathi/myportfolio',
+      downloadUrl: '#',
+      featured: false
     },
   ];
   
@@ -564,7 +568,7 @@ const HomePage = () => {
         >
           <Grid>
             {featuredProjects.map((project, index) => (
-              <EnhancedProjectCard
+              <ProjectCard
                 key={project.id}
                 theme={theme}
                 as={motion.div}
@@ -573,95 +577,94 @@ const HomePage = () => {
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                <ProjectImage theme={theme}>
-                  <FiArrowUpRight size={24} />
-                  <span>Project Preview</span>
+                {project.featured && (
+                  <FeaturedBadge theme={theme}>
+                    Featured
+                  </FeaturedBadge>
+                )}
+                <ProjectImage 
+                  theme={theme}
+                  image={project.image}
+                >
                   <ProjectOverlay theme={theme} className="project-overlay">
-                    <ProjectLinks>
-                      {project.liveUrl && project.liveUrl !== '#' && (
-                        <ProjectLink 
-                          href={project.liveUrl} 
+                    <ProjectOverlayLinks>
+                      {project.liveLink && project.liveLink !== '#' && (
+                        <ProjectOverlayLink 
+                          href={project.liveLink} 
                           target="_blank" 
                           rel="noopener noreferrer"
                           theme={theme}
                         >
                           <FiExternalLink size={18} />
-                        </ProjectLink>
+                        </ProjectOverlayLink>
                       )}
-                      {project.githubUrl && project.githubUrl !== '#' && (
-                        <ProjectLink 
-                          href={project.githubUrl} 
+                      {project.githubLink && project.githubLink !== '#' && (
+                        <ProjectOverlayLink 
+                          href={project.githubLink} 
                           target="_blank" 
                           rel="noopener noreferrer"
                           theme={theme}
                         >
                           <FiGithub size={18} />
-                        </ProjectLink>
+                        </ProjectOverlayLink>
                       )}
                       {project.downloadUrl && project.downloadUrl !== '#' && (
-                        <ProjectLink 
+                        <ProjectOverlayLink 
                           href={project.downloadUrl} 
                           target="_blank" 
                           rel="noopener noreferrer"
                           theme={theme}
                         >
                           <FiDownload size={18} />
-                        </ProjectLink>
+                        </ProjectOverlayLink>
                       )}
-                    </ProjectLinks>
+                    </ProjectOverlayLinks>
                   </ProjectOverlay>
                 </ProjectImage>
-
-                <ProjectContent>
-                  <ProjectTitle theme={theme}>{project.title}</ProjectTitle>
-                  <ProjectDescription>{project.description}</ProjectDescription>
-                  
-                  <ProjectTech>
-                    {project.technologies.map((tech, techIndex) => (
-                      <TechTag key={techIndex} theme={theme}>
-                        {tech}
-                      </TechTag>
-                    ))}
-                  </ProjectTech>
-
-                  <ProjectActions>
-                    {project.liveUrl && project.liveUrl !== '#' && (
-                      <EnhancedProjectLink 
-                        href={project.liveUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        primary="true"
-                        theme={theme}
-                      >
-                        <FiExternalLink size={16} />
-                        Live Demo
-                      </EnhancedProjectLink>
-                    )}
-                    {project.githubUrl && project.githubUrl !== '#' && (
-                      <EnhancedProjectLink 
-                        href={project.githubUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        theme={theme}
-                      >
-                        <FiGithub size={16} />
-                        Code
-                      </EnhancedProjectLink>
-                    )}
-                    {project.downloadUrl && project.downloadUrl !== '#' && (
-                      <EnhancedProjectLink 
-                        href={project.downloadUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        theme={theme}
-                      >
-                        <FiDownload size={16} />
-                        Download
-                      </EnhancedProjectLink>
-                    )}
-                  </ProjectActions>
-                </ProjectContent>
-              </EnhancedProjectCard>
+                
+                <ProjectTitle theme={theme}>{project.title}</ProjectTitle>
+                <ProjectDescription>{project.description}</ProjectDescription>
+                
+                <TagsContainer>
+                  {project.technologies.map((tech, techIndex) => (
+                    <Tag key={techIndex}>{tech}</Tag>
+                  ))}
+                </TagsContainer>
+                
+                <ProjectLinks>
+                  {project.liveLink && project.liveLink !== '#' && (
+                    <EnhancedProjectLink
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      primary="true"
+                      theme={theme}
+                    >
+                      <FiExternalLink size={16} /> Live Demo
+                    </EnhancedProjectLink>
+                  )}
+                  {project.githubLink && project.githubLink !== '#' && (
+                    <EnhancedProjectLink
+                      href={project.githubLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      theme={theme}
+                    >
+                      <FiGithub size={16} /> Code
+                    </EnhancedProjectLink>
+                  )}
+                  {project.downloadUrl && project.downloadUrl !== '#' && (
+                    <EnhancedProjectLink
+                      href={project.downloadUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      theme={theme}
+                    >
+                      <FiDownload size={16} /> Download
+                    </EnhancedProjectLink>
+                  )}
+                </ProjectLinks>
+              </ProjectCard>
             ))}
           </Grid>
           

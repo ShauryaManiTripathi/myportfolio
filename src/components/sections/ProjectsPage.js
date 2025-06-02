@@ -5,6 +5,9 @@ import { FiExternalLink, FiGithub, FiFilter, FiArrowUpRight, FiDownload } from '
 import { Section, SectionTitle, Card, Button, TagsContainer, Tag, ExternalLink, staggerContainerVariants, fadeInUpVariants } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 
+import portfolioImage from '../../assets/images/portfoliov2.png'; // You already have this one!
+import cartgenieimage from '../../assets/images/cartgenie.png'; // Placeholder for CartGenie image
+import geminicoderimage from '../../assets/images/geminicoderv2.png'; // Placeholder for GeminiCoder image
 const FilterContainer = styled(motion.div)`
   display: flex;
   flex-wrap: wrap;
@@ -211,30 +214,31 @@ const ProjectsPage = () => {
     { id: 'web', name: 'Web Development' },
     { id: 'mobile', name: 'Mobile Apps' },
     { id: 'design', name: 'UI/UX Design' },
+    {id: 'Agentic', name: 'Agentic AI' },
   ];
   
   const projectsData = [
     {
       id: 1,
-      title: 'E-commerce Platform',
-      description: 'A full-stack e-commerce solution with React, Node.js, and MongoDB. Features include user authentication, payment integration, and admin dashboard.',
-      image: 'https://via.placeholder.com/600x400',
+      title: 'CartGenie',
+      description: 'AI-powered e-commerce platform delivering an intuitive shopping experience with complete speech-to-speech functionality and a real-time shopping assistant.',
+      image: cartgenieimage,
       category: 'web',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Stripe'],
-      liveLink: 'https://example.com',
-      githubLink: 'https://github.com/username/ecommerce',
+      technologies: ['Ollama','Flask', 'LangChain','Agentic', 'RAG', 'OpenVoice'],
+      liveLink: 'https://92c3-14-139-197-66.ngrok-free.app/',
+      githubLink: 'https://github.com/ShauryaManiTripathi/CartGenie',
       downloadUrl: '#',
       featured: true
     },
     {
       id: 2,
-      title: 'Task Manager App',
-      description: 'A collaborative task management tool with real-time updates, drag-and-drop functionality, and team collaboration features.',
-      image: 'https://via.placeholder.com/600x400',
+      title: 'Gemini Coder',
+      description: 'A sophisticated Claude-Coder alternative powered by Google Gemini, built entirely from scratch with zero external frameworks. Features an intelligent file-context system , CLI based AI assitant.',
+      image: geminicoderimage,
       category: 'mobile',
-      technologies: ['React Native', 'Firebase', 'Redux', 'Socket.io'],
+      technologies: ['Python','Google GenAI', 'Agentic System', 'SDE', 'RAG'],
       liveLink: '#',
-      githubLink: 'https://github.com/username/task-manager',
+      githubLink: 'https://github.com/ShauryaManiTripathi/CartGenie---Final',
       downloadUrl: 'https://example.com/task-manager.apk',
       featured: true
     },
@@ -242,11 +246,11 @@ const ProjectsPage = () => {
       id: 3,
       title: 'Portfolio Website',
       description: 'A personal portfolio website showcasing projects and skills with smooth animations and responsive design.',
-      image: 'https://via.placeholder.com/600x400',
+      image: portfolioImage,
       category: 'web',
       technologies: ['React', 'Framer Motion', 'Emotion CSS', 'React Router'],
-      liveLink: 'https://example.com',
-      githubLink: 'https://github.com/username/portfolio',
+      liveLink: 'https://myportfolio-khaki-pi.vercel.app/',
+      githubLink: 'https://github.com/ShauryaManiTripathi/myportfolio',
       downloadUrl: '#',
       featured: false
     },
@@ -348,8 +352,8 @@ const ProjectsPage = () => {
                 theme={theme}
                 image={project.image}
               >
-                <FiArrowUpRight size={24} />
-                <span>Project Preview</span>
+                {/* <FiArrowUpRight size={24} />
+                <span>Project Preview</span> */}
                 <ProjectOverlay theme={theme} className="project-overlay">
                   <ProjectOverlayLinks>
                     {project.liveLink && project.liveLink !== '#' && (

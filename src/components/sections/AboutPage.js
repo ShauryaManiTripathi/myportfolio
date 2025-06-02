@@ -70,6 +70,26 @@ const BioText = styled.p`
   font-size: 1.1rem;
 `;
 
+const GradientHello = styled.span`
+  background: linear-gradient(135deg, ${({ theme }) => theme.primary}, #667eea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  font-size: 1.2em;
+`;
+
+const SubtleEmphasis = styled.span`
+  color: ${({ theme }) => theme.primary};
+  font-weight: 600;
+`;
+
+const ProjectName = styled.span`
+  color: ${({ theme }) => theme.primary};
+  font-weight: 500;
+  font-style: italic;
+`;
+
 const ExperienceSection = styled(motion.div)`
   margin-top: 2rem;
 `;
@@ -180,12 +200,12 @@ const skills = [
               theme={theme}
               size="180px"
               src="/assets/pic.jpeg"
-              alt="Your Name"
+              alt="Shaurya Mani Tripathi"
               whileHover={{ scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 400, damping: 10 }}
             />
             
-            <Name>Your Name</Name>
+            <Name>Shaurya Mani Tripathi</Name>
             <Title theme={theme}>Full-Stack Developer</Title>
             
             <Button primary whileHover={{ scale: 1.05 }}>
@@ -205,21 +225,36 @@ const skills = [
           
           <BioContent as={motion.div} variants={fadeInUpVariants} custom={1}>
             <BioText>
-              Hello! I'm a passionate full-stack/Software developer. I specialize in React.js and Node.js, and I love creating
-              elegant solutions to complex problems.
+              <GradientHello theme={theme}>What if I told you</GradientHello> that the developer you're looking for has already built <SubtleEmphasis theme={theme}>Agentic/Speech-to-speech powered e-commerce solutions,CLI Agentic Assistents, mental health chatbots, and low level system applications</SubtleEmphasis> – all while maintaining a passion for clean, scalable code? I'm Shaurya Mani Tripathi, and I don't just write code; <SubtleEmphasis theme={theme}>I solve problems that matter</SubtleEmphasis>.
             </BioText>
             
             <BioText>
-              My journey in web development started during my college years when I built my first website.
-              Since then, I've worked with various technologies and frameworks, always eager to learn and
-              adapt to the ever-evolving tech landscape.
+              In today's rapidly evolving tech landscape, you need someone who can <SubtleEmphasis theme={theme}>adapt, innovate, and deliver</SubtleEmphasis>. As a <SubtleEmphasis theme={theme}>quick learner with an insatiable curiosity</SubtleEmphasis>, I am mastering diverse technologies across the full stack – from crafting lightning-fast backend systems with Go and Python to building intuitive React interfaces that users actually love. Whether it's architecting robust APIs or creating interactive web experiences, I bring both <em>technical depth and creative problem-solving</em> to every project.
             </BioText>
             
             <BioText>
-              I believe that great code is not just functional but also maintainable and scalable.
-              I strive to write clean, efficient code that provides the best user experience possible.
+              Here's what sets me apart: I'm not just riding the AI wave – <SubtleEmphasis theme={theme}>I'm actively shaping it</SubtleEmphasis>. From developing <ProjectName theme={theme}>Gemini Coder</ProjectName> (an intelligent operating system agent) to building <ProjectName theme={theme}>CartGenie</ProjectName> (an LLM-powered e-commerce transformer), I'm creating solutions that push boundaries. My experience with Agentic System / WebD / AppD / system programs isn't just theoretical – it's <em>production-ready and impactful</em>.
+            </BioText>
+
+            <BioText>
+              But I believe great technology should serve humanity. That's why I've built accessible mobile solutions like the <ProjectName theme={theme}>PilgrimAI mental health chatbot</ProjectName> using Flutter and Dart, and why I create tools like my Rust-based College's internet's auto-firewall authenticator – <SubtleEmphasis theme={theme}>solving real problems for real people</SubtleEmphasis>. Every line of code I write is driven by the question: <em>"How can this make someone's life better?"</em>
             </BioText>
             
+            <BioText>
+              My foundation is rock-solid: enterprise-grade databases (SQL, PostgreSQL, Vector DBs), cloud infrastructure (Docker, AWS), and DevOps practices (Git CI/CD) that ensure your products scale seamlessly. I don't just build features – <SubtleEmphasis theme={theme}>I build systems that grow with your business</SubtleEmphasis>.
+            </BioText>
+
+            <BioText>
+              What excites me most? <SubtleEmphasis theme={theme}>The intersection of cutting-edge technology and meaningful impact</SubtleEmphasis>. Whether it's making Fourier transforms dance on screen or designing database schemas for complex management systems, I approach every challenge with curiosity, precision, and an unwavering commitment to excellence.
+            </BioText>
+            
+            <BioText>
+              You're not just hiring a developer – you're bringing on someone who <SubtleEmphasis theme={theme}>transforms ideas into scalable, maintainable solutions</SubtleEmphasis> that users love and businesses depend on.
+            </BioText>
+
+            <BioText>
+            Ready to see what we can build together? 🚀
+            </BioText>
             <div>
               <h3 style={{ fontSize: '1.4rem', marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
                 <FiCode style={{ marginRight: '0.5rem', color: theme.primary }} /> Skills & Technologies
