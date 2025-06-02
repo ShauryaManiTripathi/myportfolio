@@ -113,7 +113,11 @@ const CrossPageScrollOverlay = ({
               theme={theme}
               initial={{ width: '0%' }}
               animate={{ width: `${validProgress}%` }}
-              transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+              transition={{ 
+                type: 'tween', 
+                ease: 'easeOut',
+                duration: 0.15
+              }}
             />
           </ProgressContainer>
           
@@ -135,7 +139,7 @@ const CrossPageScrollOverlay = ({
                 >
                   <FiArrowRight />
                 </motion.div>
-                <span>Continue to {nextPageName} • {Math.round(validProgress)}% • Keep scrolling</span>
+                <span>Continue to {nextPageName} • {validProgress.toFixed(1)}% • Keep scrolling</span>
               </NextPageInfo>
             ) : (
               <NextPageInfo theme={theme}>

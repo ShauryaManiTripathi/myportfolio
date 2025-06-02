@@ -68,19 +68,21 @@ const useCrossPageScroll = () => {
     
     isDecayingRef.current = true;
     
-    // Start decay animation - reduce progress gradually
+    // Start decay animation - reduce progress gradually with smoother decrements
     decayIntervalRef.current = setInterval(() => {
       if (overScrollProgressRef.current > 0) {
-        // Variable decay rate: faster for higher percentages
+        // Variable decay rate with smaller, smoother decrements
         const currentProgress = overScrollProgressRef.current;
         let decayAmount;
         
         if (currentProgress > 80) {
-          decayAmount = 4; // Faster decay for high progress
+          decayAmount = 1.5; // Smoother decay for high progress
         } else if (currentProgress > 50) {
-          decayAmount = 3; // Medium decay for medium progress
+          decayAmount = 1.2; // Smoother decay for medium progress
+        } else if (currentProgress > 20) {
+          decayAmount = 0.8; // Slower decay for lower progress
         } else {
-          decayAmount = 2; // Slower decay for low progress
+          decayAmount = 0.5; // Very slow decay for very low progress
         }
         
         overScrollProgressRef.current = Math.max(0, overScrollProgressRef.current - decayAmount);
@@ -100,7 +102,7 @@ const useCrossPageScroll = () => {
         clearInterval(decayIntervalRef.current);
         decayIntervalRef.current = null;
       }
-    }, 40); // 40ms intervals for smooth animation
+    }, 20); // 20ms intervals for ultra-smooth animation
   }, []);
 
   // Function to navigate to next page
@@ -194,8 +196,8 @@ const useCrossPageScroll = () => {
             isDecayingRef.current = false;
           }
           
-          // Increase progress based on scroll intensity
-          const scrollIntensity = Math.min(e.deltaY * 0.3, 8); // Cap the intensity
+          // Increase progress based on scroll intensity with finer granularity
+          const scrollIntensity = Math.min(e.deltaY * 0.15, 3); // Smaller, smoother increments
           overScrollProgressRef.current = Math.min(100, overScrollProgressRef.current + scrollIntensity);
           setProgress(overScrollProgressRef.current);
           setShowOverlay(true);
