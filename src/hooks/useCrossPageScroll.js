@@ -5,6 +5,7 @@ const useCrossPageScroll = () => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isScrollingToNext, setIsScrollingToNext] = useState(false);
+  const [targetPageName, setTargetPageName] = useState(''); // Store the target page name
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -58,18 +59,23 @@ const useCrossPageScroll = () => {
     isNavigatingRef.current = true;
     setIsScrollingToNext(true);
     
-    // Small delay for visual feedback
+    // Store the target page name to prevent it from changing during navigation
+    const targetName = getPageName(nextPage);
+    setTargetPageName(targetName);
+    
+    // Increased delay for better visual feedback (800ms total)
     setTimeout(() => {
       navigate(nextPage);
       // Reset everything after navigation
       setTimeout(() => {
         resetProgress();
         setIsScrollingToNext(false);
+        setTargetPageName('');
         isNavigatingRef.current = false;
         window.scrollTo(0, 0);
       }, 100);
-    }, 300);
-  }, [navigate, resetProgress]);
+    }, 800);
+  }, [navigate, resetProgress, getPageName]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -219,6 +225,7 @@ const useCrossPageScroll = () => {
   useEffect(() => {
     resetProgress();
     setIsScrollingToNext(false);
+    setTargetPageName('');
     isNavigatingRef.current = false;
   }, [location.pathname, resetProgress]);
 
@@ -226,7 +233,7 @@ const useCrossPageScroll = () => {
     showOverlay,
     progress,
     nextPage: getNextPage(),
-    nextPageName: getPageName(getNextPage()),
+    nextPageName: isScrollingToNext ? targetPageName : getPageName(getNextPage()),
     isScrollingToNext,
     getCurrentPageIndex,
     getPageName
