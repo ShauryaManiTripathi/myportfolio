@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import { FiArrowDown, FiCode, FiExternalLink, FiZap, FiHeart, FiGithub, FiArrowUpRight } from 'react-icons/fi';
+import { FiArrowDown, FiCode, FiExternalLink, FiZap, FiHeart, FiGithub, FiArrowUpRight, FiDownload, FiCpu, FiTrendingUp } from 'react-icons/fi';
 import { FaPalette } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
@@ -82,7 +82,61 @@ const FeatureCard = styled(Card)`
   overflow: hidden;
   transition: all 0.3s ease;
   
-  &::before {
+  ${({ highlighted }) => highlighted ? `
+    border: 3px solid;
+    border-image: linear-gradient(45deg, 
+      #ff0000 0%,
+      #ff7300 14.3%, 
+      #fffb00 28.6%, 
+      #48ff00 42.9%, 
+      #00ffd5 57.1%, 
+      #002bff 71.4%, 
+      #7a00ff 85.7%, 
+      #ff00c8 100%
+    ) 1;
+    animation: gradientShift 3s ease-in-out infinite;
+    background: linear-gradient(45deg, 
+      #ff0000 0%,
+      #ff7300 14.3%, 
+      #fffb00 28.6%, 
+      #48ff00 42.9%, 
+      #00ffd5 57.1%, 
+      #002bff 71.4%, 
+      #7a00ff 85.7%, 
+      #ff00c8 100%
+    );
+    background-size: 400% 400%;
+    background-clip: border-box;
+    -webkit-background-clip: border-box;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      right: 3px;
+      bottom: 3px;
+      background: ${({ theme }) => theme.cardBackground || theme.background};
+      border-radius: calc(inherit - 3px);
+      z-index: 0;
+    }
+    
+    & > * {
+      position: relative;
+      z-index: 1;
+    }
+    
+    @keyframes gradientShift {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+  ` : ''}
+  
+  &::after {
     content: '';
     position: absolute;
     top: 0;
@@ -94,7 +148,7 @@ const FeatureCard = styled(Card)`
     transition: transform 0.3s ease;
   }
   
-  &:hover::before {
+  &:hover::after {
     transform: scaleX(1);
   }
   
@@ -253,6 +307,13 @@ const ProjectActions = styled.div`
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  align-items: center;
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
 `;
 
 const EnhancedProjectLink = styled.a`
@@ -306,11 +367,12 @@ const HomePage = () => {
   const featuredProjects = [
     {
       id: 1,
-      title: 'E-Commerce Platform',
-      description: 'A full-stack e-commerce solution with React, Node.js, and MongoDB. Features include user authentication, payment integration, and admin dashboard.',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+      title: 'CartGenie',
+      description: ' AI-driven e-commerce platform for intuitive shopping experience. Full Speech to Speech support, real-time shopping assitant.',
+      technologies: ['Flask', 'LangChain','Agentic', 'RAG', 'OpenVoice Engine'],
       liveUrl: '#',
-      githubUrl: '#',
+      githubUrl: 'https://github.com/username/cartgenie',
+      downloadUrl: '#',
     },
     {
       id: 2,
@@ -318,7 +380,8 @@ const HomePage = () => {
       description: 'A collaborative task management tool with real-time updates, drag-and-drop functionality, and team collaboration features.',
       technologies: ['Vue.js', 'Express', 'Socket.io', 'PostgreSQL'],
       liveUrl: '#',
-      githubUrl: '#',
+      githubUrl: 'https://github.com/username/task-manager',
+      downloadUrl: '#',
     },
     {
       id: 3,
@@ -327,6 +390,7 @@ const HomePage = () => {
       technologies: ['React', 'Chart.js', 'OpenWeather API', 'SCSS'],
       liveUrl: '#',
       githubUrl: '#',
+      downloadUrl: 'https://example.com/weather-app.zip',
     },
   ];
   
@@ -345,6 +409,16 @@ const HomePage = () => {
       icon: <FaFlutter />,
       title: 'Mobile Development',
       description: 'Building Cross Platform App with Flutter.',
+    },
+    {
+      icon: <FiCpu />,
+      title: 'Agentic Framework',
+      description: 'Rapidly learning and implementing ML models and APIs in applications. Building intelligent AI agents using existing frameworks.',
+    },
+    {
+      icon: <FiTrendingUp />,
+      title: 'Quick Learner',
+      description: 'Exceptional ability to quickly grasp new technologies, frameworks, and concepts. From zero to implementation in record time.',
     },
     {
       icon: <FiCode />,
@@ -457,6 +531,7 @@ const HomePage = () => {
             <FeatureCard
               key={index}
               theme={theme}
+              highlighted={feature.highlighted}
               as={motion.div}
               variants={fadeInUpVariants}
               custom={index}
@@ -503,22 +578,36 @@ const HomePage = () => {
                   <span>Project Preview</span>
                   <ProjectOverlay theme={theme} className="project-overlay">
                     <ProjectLinks>
-                      <ProjectLink 
-                        href={project.liveUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        theme={theme}
-                      >
-                        <FiExternalLink size={18} />
-                      </ProjectLink>
-                      <ProjectLink 
-                        href={project.githubUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        theme={theme}
-                      >
-                        <FiGithub size={18} />
-                      </ProjectLink>
+                      {project.liveUrl && project.liveUrl !== '#' && (
+                        <ProjectLink 
+                          href={project.liveUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          theme={theme}
+                        >
+                          <FiExternalLink size={18} />
+                        </ProjectLink>
+                      )}
+                      {project.githubUrl && project.githubUrl !== '#' && (
+                        <ProjectLink 
+                          href={project.githubUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          theme={theme}
+                        >
+                          <FiGithub size={18} />
+                        </ProjectLink>
+                      )}
+                      {project.downloadUrl && project.downloadUrl !== '#' && (
+                        <ProjectLink 
+                          href={project.downloadUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          theme={theme}
+                        >
+                          <FiDownload size={18} />
+                        </ProjectLink>
+                      )}
                     </ProjectLinks>
                   </ProjectOverlay>
                 </ProjectImage>
@@ -536,25 +625,40 @@ const HomePage = () => {
                   </ProjectTech>
 
                   <ProjectActions>
-                    <EnhancedProjectLink 
-                      href={project.liveUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      primary="true"
-                      theme={theme}
-                    >
-                      <FiExternalLink size={16} />
-                      Live Demo
-                    </EnhancedProjectLink>
-                    <EnhancedProjectLink 
-                      href={project.githubUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      theme={theme}
-                    >
-                      <FiGithub size={16} />
-                      Code
-                    </EnhancedProjectLink>
+                    {project.liveUrl && project.liveUrl !== '#' && (
+                      <EnhancedProjectLink 
+                        href={project.liveUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        primary="true"
+                        theme={theme}
+                      >
+                        <FiExternalLink size={16} />
+                        Live Demo
+                      </EnhancedProjectLink>
+                    )}
+                    {project.githubUrl && project.githubUrl !== '#' && (
+                      <EnhancedProjectLink 
+                        href={project.githubUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        theme={theme}
+                      >
+                        <FiGithub size={16} />
+                        Code
+                      </EnhancedProjectLink>
+                    )}
+                    {project.downloadUrl && project.downloadUrl !== '#' && (
+                      <EnhancedProjectLink 
+                        href={project.downloadUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        theme={theme}
+                      >
+                        <FiDownload size={16} />
+                        Download
+                      </EnhancedProjectLink>
+                    )}
                   </ProjectActions>
                 </ProjectContent>
               </EnhancedProjectCard>

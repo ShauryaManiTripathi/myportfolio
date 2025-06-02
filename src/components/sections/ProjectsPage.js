@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiExternalLink, FiGithub, FiFilter, FiArrowUpRight } from 'react-icons/fi';
+import { FiExternalLink, FiGithub, FiFilter, FiArrowUpRight, FiDownload } from 'react-icons/fi';
 import { Section, SectionTitle, Card, Button, TagsContainer, Tag, ExternalLink, staggerContainerVariants, fadeInUpVariants } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 
@@ -135,6 +135,12 @@ const ProjectLinks = styled.div`
   display: flex;
   gap: 1rem;
   margin-top: auto;
+  flex-wrap: wrap;
+  
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 `;
 
 const EnhancedProjectLink = styled.a`
@@ -157,6 +163,8 @@ const EnhancedProjectLink = styled.a`
     &:hover {
       background: ${theme.accent};
       border-color: ${theme.accent};
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px ${theme.primary}30;
     }
   ` : `
     background: transparent;
@@ -166,6 +174,8 @@ const EnhancedProjectLink = styled.a`
     &:hover {
       background: ${theme.primary};
       color: ${theme.background};
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px ${theme.primary}30;
     }
   `}
 `;
@@ -212,7 +222,8 @@ const ProjectsPage = () => {
       category: 'web',
       technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'Stripe'],
       liveLink: 'https://example.com',
-      githubLink: 'https://github.com',
+      githubLink: 'https://github.com/username/ecommerce',
+      downloadUrl: '#',
       featured: true
     },
     {
@@ -222,8 +233,9 @@ const ProjectsPage = () => {
       image: 'https://via.placeholder.com/600x400',
       category: 'mobile',
       technologies: ['React Native', 'Firebase', 'Redux', 'Socket.io'],
-      liveLink: 'https://example.com',
-      githubLink: 'https://github.com',
+      liveLink: '#',
+      githubLink: 'https://github.com/username/task-manager',
+      downloadUrl: 'https://example.com/task-manager.apk',
       featured: true
     },
     {
@@ -234,7 +246,8 @@ const ProjectsPage = () => {
       category: 'web',
       technologies: ['React', 'Framer Motion', 'Emotion CSS', 'React Router'],
       liveLink: 'https://example.com',
-      githubLink: 'https://github.com',
+      githubLink: 'https://github.com/username/portfolio',
+      downloadUrl: '#',
       featured: false
     },
     {
@@ -244,8 +257,9 @@ const ProjectsPage = () => {
       image: 'https://via.placeholder.com/600x400',
       category: 'design',
       technologies: ['Figma', 'Adobe XD', 'Sketch', 'Principle'],
-      liveLink: 'https://example.com',
-      githubLink: 'https://github.com',
+      liveLink: '#',
+      githubLink: '#',
+      downloadUrl: 'https://example.com/ui-kit.zip',
       featured: false
     },
     {
@@ -256,7 +270,8 @@ const ProjectsPage = () => {
       category: 'web',
       technologies: ['JavaScript', 'Chart.js', 'OpenWeather API', 'SCSS'],
       liveLink: 'https://example.com',
-      githubLink: 'https://github.com',
+      githubLink: '#',
+      downloadUrl: 'https://example.com/weather-app.zip',
       featured: false
     },
     {
@@ -266,8 +281,9 @@ const ProjectsPage = () => {
       image: 'https://via.placeholder.com/600x400',
       category: 'mobile',
       technologies: ['React Native', 'HealthKit', 'Google Fit API', 'Chart.js'],
-      liveLink: 'https://example.com',
-      githubLink: 'https://github.com',
+      liveLink: '#',
+      githubLink: 'https://github.com/username/fitness-tracker',
+      downloadUrl: '#',
       featured: false
     },
   ];
@@ -336,22 +352,36 @@ const ProjectsPage = () => {
                 <span>Project Preview</span>
                 <ProjectOverlay theme={theme} className="project-overlay">
                   <ProjectOverlayLinks>
-                    <ProjectOverlayLink 
-                      href={project.liveLink} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      theme={theme}
-                    >
-                      <FiExternalLink size={18} />
-                    </ProjectOverlayLink>
-                    <ProjectOverlayLink 
-                      href={project.githubLink} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      theme={theme}
-                    >
-                      <FiGithub size={18} />
-                    </ProjectOverlayLink>
+                    {project.liveLink && project.liveLink !== '#' && (
+                      <ProjectOverlayLink 
+                        href={project.liveLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        theme={theme}
+                      >
+                        <FiExternalLink size={18} />
+                      </ProjectOverlayLink>
+                    )}
+                    {project.githubLink && project.githubLink !== '#' && (
+                      <ProjectOverlayLink 
+                        href={project.githubLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        theme={theme}
+                      >
+                        <FiGithub size={18} />
+                      </ProjectOverlayLink>
+                    )}
+                    {project.downloadUrl && project.downloadUrl !== '#' && (
+                      <ProjectOverlayLink 
+                        href={project.downloadUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        theme={theme}
+                      >
+                        <FiDownload size={18} />
+                      </ProjectOverlayLink>
+                    )}
                   </ProjectOverlayLinks>
                 </ProjectOverlay>
               </ProjectImage>
@@ -366,23 +396,37 @@ const ProjectsPage = () => {
               </TagsContainer>
               
               <ProjectLinks>
-                <EnhancedProjectLink
-                  href={project.liveLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  primary="true"
-                  theme={theme}
-                >
-                  <FiExternalLink size={16} /> Live Demo
-                </EnhancedProjectLink>
-                <EnhancedProjectLink
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  theme={theme}
-                >
-                  <FiGithub size={16} /> GitHub
-                </EnhancedProjectLink>
+                {project.liveLink && project.liveLink !== '#' && (
+                  <EnhancedProjectLink
+                    href={project.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    primary="true"
+                    theme={theme}
+                  >
+                    <FiExternalLink size={16} /> Live Demo
+                  </EnhancedProjectLink>
+                )}
+                {project.githubLink && project.githubLink !== '#' && (
+                  <EnhancedProjectLink
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    theme={theme}
+                  >
+                    <FiGithub size={16} /> Code
+                  </EnhancedProjectLink>
+                )}
+                {project.downloadUrl && project.downloadUrl !== '#' && (
+                  <EnhancedProjectLink
+                    href={project.downloadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    theme={theme}
+                  >
+                    <FiDownload size={16} /> Download
+                  </EnhancedProjectLink>
+                )}
               </ProjectLinks>
             </ProjectCard>
           ))}
