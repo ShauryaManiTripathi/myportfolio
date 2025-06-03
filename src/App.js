@@ -9,6 +9,7 @@ import SkillsPage from './components/sections/SkillsPage';
 import ContactPage from './components/sections/ContactPage';
 import NotFoundPage from './components/sections/NotFoundPage';
 import Loader from './components/layout/Loader';
+import CursorShimmer from './components/effects/CursorShimmer';
 import { useTheme } from './context/ThemeContext';
 import { usePageMetadata } from './hooks/usePageMetadata';
 import { Global, css } from '@emotion/react';
@@ -71,18 +72,27 @@ function App() {
         {loading ? (
           <Loader key="loader" />
         ) : (
-          <Layout key="layout">
-            <AnimatePresence mode="wait">
-              <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/projects" element={<ProjectsPage />} />
-                <Route path="/skills" element={<SkillsPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </AnimatePresence>
-          </Layout>
+          <>
+            <Layout key="layout">
+              <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/projects" element={<ProjectsPage />} />
+                  <Route path="/skills" element={<SkillsPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </AnimatePresence>
+            </Layout>
+            <CursorShimmer 
+              gap={15}
+              pixelSize={1.5}
+              density={0.3}
+              maxRadius={180}
+              fadeRadius={120}
+            />
+          </>
         )}
       </AnimatePresence>
     </>

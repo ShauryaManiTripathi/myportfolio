@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiExternalLink, FiGithub, FiFilter, FiArrowUpRight, FiDownload } from 'react-icons/fi';
-import { Section, SectionTitle, Card, Button, TagsContainer, Tag, ExternalLink, staggerContainerVariants, fadeInUpVariants } from '../../components/ui';
+import { FiExternalLink, FiGithub, FiFilter, FiDownload } from 'react-icons/fi';
+import { Section, SectionTitle, TagsContainer, Tag, staggerContainerVariants, fadeInUpVariants } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
+import ShimmerCard from '../effects/ShimmerCard';
 
 import portfolioImage from '../../assets/images/portfoliov2.png'; // You already have this one!
 import cartgenieimage from '../../assets/images/cartgenie.png'; // Placeholder for CartGenie image
@@ -49,7 +50,7 @@ const ProjectsGrid = styled(motion.div)`
   }
 `;
 
-const ProjectCard = styled(Card)`
+const ProjectCard = styled(ShimmerCard)`
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -373,6 +374,12 @@ const ProjectsPage = () => {
               layout
               whileHover={{ y: -10 }}
               transition={{ duration: 0.3 }}
+              shimmerOptions={{
+                gap: 10,
+                fadeSpeed: 0.08,
+                pixelSize: 1.5,
+                density: 0.2
+              }}
             >
               {project.featured && (
                 <FeaturedBadge theme={theme}>

@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import { FiArrowDown, FiCode, FiExternalLink, FiZap, FiHeart, FiGithub, FiArrowUpRight, FiDownload, FiCpu, FiTrendingUp } from 'react-icons/fi';
+import { FiArrowDown, FiCode, FiExternalLink, FiZap, FiHeart, FiGithub, FiDownload, FiCpu, FiTrendingUp } from 'react-icons/fi';
 import { FaPalette } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
-import { Button, ExternalLink, Section, SectionTitle, Card, Grid, fadeInUpVariants, staggerContainerVariants, TagsContainer, Tag } from '../../components/ui';
+import { Button, ExternalLink, Section, SectionTitle, Grid, fadeInUpVariants, staggerContainerVariants, TagsContainer, Tag } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 import { FaFlutter } from "react-icons/fa6";
 import { BsFiletypeExe } from "react-icons/bs";
+import ShimmerCard from '../effects/ShimmerCard';
 
 import portfolioImage from '../../assets/images/portfoliov2.png';
 import cartgenieimage from '../../assets/images/cartgenie.png';
@@ -75,7 +76,7 @@ const ScrollDown = styled(motion.div)`
   }
 `;
 
-const FeatureCard = styled(Card)`
+const FeatureCard = styled(ShimmerCard)`
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -196,7 +197,7 @@ const ViewAllButton = styled(motion.div)`
   justify-content: center;
 `;
 
-const ProjectCard = styled(Card)`
+const ProjectCard = styled(ShimmerCard)`
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -541,6 +542,12 @@ const HomePage = () => {
               custom={index}
               whileHover={{ y: -5, scale: 1.02 }}
               transition={{ duration: 0.3 }}
+              shimmerOptions={{
+                gap: 12,
+                fadeSpeed: 0.06,
+                pixelSize: 2,
+                density: 0.25
+              }}
             >
               <FeatureIcon
                 theme={theme}
@@ -576,6 +583,12 @@ const HomePage = () => {
                 custom={index}
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
+                shimmerOptions={{
+                  gap: 10,
+                  fadeSpeed: 0.08,
+                  pixelSize: 1.5,
+                  density: 0.2
+                }}
               >
                 {project.featured && (
                   <FeaturedBadge theme={theme}>
