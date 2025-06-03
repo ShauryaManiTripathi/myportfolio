@@ -269,7 +269,7 @@ const SkillsPage = () => {
       title: 'Mobile Development',
       icon: <FiSmartphone />,
       skills: [
-        { name: 'Flutter', level: 'Advanced', percentage: 85 },
+        { name: 'Flutter', level: 'Beginner', percentage: 30 },
       ],
     },
     {

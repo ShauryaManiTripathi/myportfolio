@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import { FiSend, FiMapPin, FiPhone, FiMail, FiGithub, FiLinkedin, FiTwitter } from 'react-icons/fi';
-import { Section, SectionTitle, Card, Button, fadeInUpVariants } from '../../components/ui';
+import { FiSend, FiMapPin, FiPhone, FiMail, FiGithub, FiLinkedin, FiCheck, FiX } from 'react-icons/fi';
+import emailjs from '@emailjs/browser';
+import { Section, SectionTitle, Card, fadeInUpVariants } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
+import { EMAILJS_CONFIG, createEmailTemplate, validateEmailJSConfig } from '../../config/emailjs';
 
 const ContactGrid = styled.div`
   display: grid;
@@ -128,6 +130,44 @@ const SocialLink = styled(motion.a)`
   }
 `;
 
+const StatusMessage = styled(motion.div)`
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  
+  ${({ type, theme }) => 
+    type === 'success' 
+      ? `
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      `
+      : `
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      `
+  }
+`;
+
+const LoadingSpinner = styled(motion.div)`
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
 const ContactPage = () => {
   const { theme } = useTheme();
   const [formData, setFormData] = useState({
@@ -137,46 +177,96 @@ const ContactPage = () => {
     message: '',
   });
   
+  const [status, setStatus] = useState({
+    loading: false,
+    message: '',
+    type: '', // 'success' or 'error'
+  });
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to a server
-    console.log('Form submitted:', formData);
-    alert('Thanks for your message! This is a demo form, so no message was actually sent.');
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    });
+    
+    // Set loading state
+    setStatus({ loading: true, message: '', type: '' });
+    
+    try {
+      // Validate EmailJS configuration
+      validateEmailJSConfig();
+      // Initialize EmailJS
+      emailjs.init(EMAILJS_CONFIG.USER_ID);
+      
+      // Prepare template parameters
+      const templateParams = createEmailTemplate(formData);
+      
+      // Send email
+      await emailjs.send(
+        EMAILJS_CONFIG.SERVICE_ID,
+        EMAILJS_CONFIG.TEMPLATE_ID,
+        templateParams
+      );
+      
+      // Success - email sent
+      setStatus({
+        loading: false,
+        message: '✨ Message sent successfully! I\'ll get back to you soon.',
+        type: 'success'
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      });
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setStatus({ loading: false, message: '', type: '' });
+      }, 5000);
+      
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      
+      setStatus({
+        loading: false,
+        message: error.message || 'Failed to send message. Please try again or contact me directly at shaurya.deoria@gmail.com',
+        type: 'error'
+      });
+      
+      // Clear error message after 7 seconds
+      setTimeout(() => {
+        setStatus({ loading: false, message: '', type: '' });
+      }, 7000);
+    }
   };
   
   const contactInfo = [
     {
       icon: <FiMapPin />,
-      title: 'Location',
-      text: 'New York, NY, United States',
+      title: 'Current Location',
+      text: 'Guwahati, Assam, India',
     },
     {
       icon: <FiPhone />,
       title: 'Phone',
-      text: '(123) 456-7890',
+      text: '+91 9454604042',
     },
     {
       icon: <FiMail />,
       title: 'Email',
-      text: 'your.email@example.com',
+      text: 'shaurya.deoria@gmail.com',
     },
   ];
   
   const socialLinks = [
-    { icon: <FiGithub />, url: 'https://github.com', label: 'GitHub' },
-    { icon: <FiLinkedin />, url: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: <FiTwitter />, url: 'https://twitter.com', label: 'Twitter' },
+    { icon: <FiGithub />, url: 'https://github.com/shauryamanitripathi', label: 'GitHub' },
+    { icon: <FiLinkedin />, url: 'https://www.linkedin.com/in/shaurya-mani-tripathi-117553271/', label: 'LinkedIn' },
   ];
   
   return (
@@ -190,7 +280,8 @@ const ContactPage = () => {
           animate="visible"
           custom={0}
         >
-          <ContactForm theme={theme} as="form" onSubmit={handleSubmit}>
+          <ContactForm theme={theme}>
+            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             <FormGroup>
               <Label htmlFor="name">Your Name</Label>
               <Input
@@ -242,15 +333,61 @@ const ContactPage = () => {
               />
             </FormGroup>
             
-            <Button
-              primary
+            {/* Status Message */}
+            {status.message && (
+              <StatusMessage
+                type={status.type}
+                theme={theme}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {status.type === 'success' ? <FiCheck /> : <FiX />}
+                {status.message}
+              </StatusMessage>
+            )}
+            
+            {/* Contact form submit button */}
+            <button
               type="submit"
-              style={{ width: '100%' }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              disabled={status.loading}
+              style={{
+                width: '100%',
+                backgroundColor: theme.primary,
+                color: '#fff',
+                border: `2px solid ${theme.primary}`,
+                padding: '0.75rem 1.5rem',
+                borderRadius: '50px',
+                fontSize: '1rem',
+                fontWeight: 600,
+                cursor: status.loading ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                opacity: status.loading ? 0.6 : 1,
+                transition: 'all 0.3s ease'
+              }}
+              onMouseOver={(e) => {
+                if (!status.loading) {
+                  e.target.style.transform = 'scale(1.02)';
+                }
+              }}
+              onMouseOut={(e) => {
+                e.target.style.transform = 'scale(1)';
+              }}
             >
-              <FiSend /> Send Message
-            </Button>
+              {status.loading ? (
+                <>
+                  <LoadingSpinner /> Sending...
+                </>
+              ) : (
+                <>
+                  <FiSend /> Send Message
+                </>
+              )}
+            </button>
+            </form>
           </ContactForm>
         </motion.div>
         

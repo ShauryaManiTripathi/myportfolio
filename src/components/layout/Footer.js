@@ -52,10 +52,9 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   const socialLinks = [
-    { icon: <FiGithub />, url: 'https://github.com', label: 'GitHub' },
-    { icon: <FiLinkedin />, url: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: <FiTwitter />, url: 'https://twitter.com', label: 'Twitter' },
-    { icon: <FiMail />, url: 'mailto:your.email@example.com', label: 'Email' },
+    { icon: <FiGithub />, url: 'https://github.com/shauryamanitripathi', label: 'GitHub' },
+    { icon: <FiLinkedin />, url: 'https://www.linkedin.com/in/shaurya-mani-tripathi-117553271/', label: 'LinkedIn' },
+    { icon: <FiMail />, url: 'mailto:shaurya.deoria@gmail.com', label: 'Email' },
   ];
   
   return (
