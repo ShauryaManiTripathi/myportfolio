@@ -228,7 +228,7 @@ const ProjectsPage = () => {
     {
       id: 1,
       title: 'CartGenie',
-      description: 'AI-powered e-commerce platform delivering an intuitive shopping experience with complete speech-to-speech functionality and a real-time shopping assistant.',
+      description: 'AI-powered e-commerce platform delivering an intuitive shopping experience with complete speech-to-speech functionality and a real-time shopping assistant. No external Service/API used in making this project',
       image: cartgenieimage,
       categories: ['web', 'agentic'],
       technologies: ['Ollama','Flask', 'LangChain','Agentic', 'RAG', 'OpenVoice'],
