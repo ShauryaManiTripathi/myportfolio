@@ -1,20 +1,3 @@
-# Modern Portfolio Website
-
-A beautiful, responsive portfolio website built with React, Emotion CSS, and Framer Motion.
-
-![Portfolio Preview](./screenshot.png)
-
-## Features
-
-- ✨ Modern design with smooth animations
-- 🌓 Light and dark mode
-- 📱 Fully responsive for all devices
-- ⚡ Fast performance with optimized code
-- 🎨 Custom cursor and interactive elements
-- 📝 Contact form
-- 🔍 SEO optimized
-
-
 MIT License
 
 Copyright (c) 2025 Shaurya Mani Tripathi
