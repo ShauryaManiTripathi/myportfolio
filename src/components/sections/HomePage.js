@@ -12,7 +12,7 @@ import { BsFiletypeExe } from "react-icons/bs";
 import ShimmerCard from '../effects/ShimmerCard';
 
 import portfolioImage from '../../assets/images/portfoliov2.png';
-import cartgenieimage from '../../assets/images/cartgenie.png';
+import gitAskimage from '../../assets/images/gitAsk.png';
 import geminicoderimage from '../../assets/images/geminicoderv2.png';
 
 
@@ -362,17 +362,17 @@ const HomePage = () => {
   
   const featuredProjects = [
     {
-      id: 1,
-      title: 'CartGenie',
-      description: 'AI-powered e-commerce platform delivering an intuitive shopping experience with complete speech-to-speech functionality and a real-time shopping assistant.',
-      image: cartgenieimage,
-      category: 'web',
-      technologies: ['Ollama','Flask', 'LangChain','Agentic', 'RAG', 'OpenVoice'],
-      liveLink: 'https://92c3-14-139-197-66.ngrok-free.app/',
-      githubLink: 'https://github.com/ShauryaManiTripathi/CartGenie---Final',
-      downloadUrl: '#',
-      featured: true
-    },
+          id: 1,
+          title: 'GitAsk',
+          description: 'A codeBase search Tool with semantic search for analysis of pretty large codebases.Done as Software Engineering Project.',
+          image: gitAskimage,
+          categories: ['web'],
+          technologies: ['NextJs', 'Gemini AI', 'Emotion CSS', 'Framer Motion','Postgres'],
+          liveLink: 'https://gitask.vercel.app/',
+          githubLink: 'https://github.com/ShauryaManiTripathi/gitchat-labProject',
+          downloadUrl: '#',
+          featured: true
+        },
     {
       id: 2,
       title: 'Gemini Coder',
