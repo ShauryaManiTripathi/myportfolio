@@ -340,7 +340,7 @@ const SkillsPage = () => {
         <SectionDescription>
           From crafting lightning-fast backend systems with Go and Python to building intuitive React interfaces, 
           I bring both technical depth and creative problem-solving to every project. Here's my comprehensive 
-          technology stack across full-stack development, AI/ML, cloud infrastructure, and mobile development.
+          technology stack across full-stack development,Agents, cloud infrastructure, and mobile development.
         </SectionDescription>
         
         <SkillsGrid
