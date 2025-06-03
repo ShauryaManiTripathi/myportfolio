@@ -244,7 +244,7 @@ const AboutPage = () => {
     { label: 'Age', value: '22' },
     { label: 'Email', value: 'shaurya.deoria@gmail.com' },
     { label: 'Phone', value: '+91 9454604042' },
-    { label: 'Location', value: 'Guwahati , Assam' },
+    { label: 'Location', value: 'Gorakhpur , Uttar Pradesh' },
   ];
   
 const skills = [

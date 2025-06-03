@@ -250,7 +250,7 @@ const ContactPage = () => {
     {
       icon: <FiMapPin />,
       title: 'Current Location',
-      text: 'Guwahati, Assam, India',
+      text: 'Gorakhpur, Uttar Pradesh, India',
     },
     {
       icon: <FiPhone />,
