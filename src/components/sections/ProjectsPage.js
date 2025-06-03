@@ -8,6 +8,11 @@ import { useTheme } from '../../context/ThemeContext';
 import portfolioImage from '../../assets/images/portfoliov2.png'; // You already have this one!
 import cartgenieimage from '../../assets/images/cartgenie.png'; // Placeholder for CartGenie image
 import geminicoderimage from '../../assets/images/geminicoderv2.png'; // Placeholder for GeminiCoder image
+import fourierimage from '../../assets/images/fourier.png'; // Placeholder for Fourier image
+import fileterminalimage from '../../assets/images/fileterminal.png'; // Placeholder for File Terminal image
+import authimage from '../../assets/images/auth.png'; // Placeholder for IIITG auth app image
+import pilgrimimage from '../../assets/images/pilgrim.png'; // Placeholder for PilgrimAI image
+import gitAskimage from '../../assets/images/gitAsk.png'; // Placeholder for GitAsk image
 const FilterContainer = styled(motion.div)`
   display: flex;
   flex-wrap: wrap;
@@ -213,8 +218,10 @@ const ProjectsPage = () => {
     { id: 'all', name: 'All Projects' },
     { id: 'web', name: 'Web Development' },
     { id: 'mobile', name: 'Mobile Apps' },
-    { id: 'design', name: 'UI/UX Design' },
-    {id: 'Agentic', name: 'Agentic AI' },
+    { id: 'design', name: 'Basic UI/UX' },
+    {id: 'agentic', name: 'Agentic AI' },
+    { id: 'algorithmic', name: 'Algorithmic/Maths' }
+    , { id: 'systemutility', name: 'System Utility' }
   ];
   
   const projectsData = [
@@ -223,10 +230,10 @@ const ProjectsPage = () => {
       title: 'CartGenie',
       description: 'AI-powered e-commerce platform delivering an intuitive shopping experience with complete speech-to-speech functionality and a real-time shopping assistant.',
       image: cartgenieimage,
-      categories: ['web', 'Agentic'],
+      categories: ['web', 'agentic'],
       technologies: ['Ollama','Flask', 'LangChain','Agentic', 'RAG', 'OpenVoice'],
       liveLink: 'https://92c3-14-139-197-66.ngrok-free.app/',
-      githubLink: 'https://github.com/ShauryaManiTripathi/CartGenie',
+      githubLink: 'https://github.com/ShauryaManiTripathi/CartGenie---Final',
       downloadUrl: '#',
       featured: true
     },
@@ -235,11 +242,11 @@ const ProjectsPage = () => {
       title: 'Gemini Coder',
       description: 'A sophisticated Claude-Coder alternative powered by Google Gemini, built entirely from scratch with zero external frameworks. Features an intelligent file-context system , CLI based AI assitant.',
       image: geminicoderimage,
-      categories: ['mobile', 'Agentic'],
+      categories: ['agentic','systemutility'],
       technologies: ['Python','Google GenAI', 'Agentic System', 'SDE', 'RAG'],
       liveLink: '#',
-      githubLink: 'https://github.com/ShauryaManiTripathi/CartGenie---Final',
-      downloadUrl: 'https://example.com/task-manager.apk',
+      githubLink: 'https://github.com/shauryamanitripathi/gemini-coder-cli',
+      downloadUrl: 'https://github.com/shauryamanitripathi/gemini-coder-cli',
       featured: true
     },
     {
@@ -256,39 +263,63 @@ const ProjectsPage = () => {
     },
     {
       id: 4,
-      title: 'Food Delivery UI Kit',
-      description: 'A comprehensive UI kit for food delivery applications with multiple screen designs and components.',
-      image: 'https://via.placeholder.com/600x400',
-      categories: ['design', 'mobile'],
-      technologies: ['Figma', 'Adobe XD', 'Sketch', 'Principle'],
-      liveLink: '#',
-      githubLink: '#',
-      downloadUrl: 'https://example.com/ui-kit.zip',
-      featured: false
+      title: 'GitAsk',
+      description: 'A codeBase search Tool with semantic search for analysis of pretty large codebases.Done as Software Engineering Project.',
+      image: gitAskimage,
+      categories: ['web'],
+      technologies: ['NextJs', 'Gemini AI', 'Emotion CSS', 'Framer Motion','Postgres'],
+      liveLink: 'https://gitask.vercel.app/',
+      githubLink: 'https://github.com/ShauryaManiTripathi/gitchat-labProject',
+      downloadUrl: '#',
+      featured: true
     },
     {
       id: 5,
-      title: 'Weather Dashboard',
-      description: 'A weather forecast application with location detection, interactive maps, and detailed weather analytics.',
-      image: 'https://via.placeholder.com/600x400',
-      categories: ['web'],
-      technologies: ['JavaScript', 'Chart.js', 'OpenWeather API', 'SCSS'],
-      liveLink: 'https://example.com',
-      githubLink: '#',
-      downloadUrl: 'https://example.com/weather-app.zip',
-      featured: false
+      title: 'Draw With Fourier',
+      description: 'A artist that can replicate your one stroke drawing with help of Maths and Circles 😉. Containerized in Docker for Cross-platform deployment.',
+      image: fourierimage,
+      categories: ['web','algorithmic'],
+      technologies: ['Go', 'HTML5 canvas', 'Docker', 'Git CI/CD'],
+      liveLink: '#',
+      githubLink: 'https://github.com/shauryamanitripathi/draw-with-fourier',
+      downloadUrl: 'https://github.com/ShauryaManiTripathi/Draw-with-Fourier/blob/main/download.md',
+      featured: true
     },
     {
       id: 6,
-      title: 'Fitness Tracker',
-      description: 'A mobile fitness tracking application with workout routines, progress charts, and health metrics.',
-      image: 'https://via.placeholder.com/600x400',
-      categories: ['mobile', 'design'],
-      technologies: ['React Native', 'HealthKit', 'Google Fit API', 'Chart.js'],
+      title: 'File and Terminal Agentic API',
+      description: 'RESTful API toolkit enabling AI agents with full file system and terminal access. Build autonomous agents that can create their own tools, execute commands, and perform complex tasks with unrestricted access to your computing environment. Built with Go and the Gin/Echo web framework..',
+      image: fileterminalimage,
+      categories: ['systemutility','agentic',],
+      technologies: ['Go', 'HTML5 Canvas', 'MultiThreaded Backend', 'Gin/Echo'],
       liveLink: '#',
-      githubLink: 'https://github.com/username/fitness-tracker',
+      githubLink: 'https://github.com/ShauryaManiTripathi/File-and-Terminal-Access-APIs',
+      downloadUrl: '#',
+      featured: true
+    },
+    {
+      id: 7,
+      title: 'IIITG auto firewall auth',
+      description: 'This Application automates firewall authentication for IIITG networks. By basic API reverse engineering, and faking the request, it allows users to bypass manual login steps.',
+      image: authimage,
+      categories: ['systemutility'],
+      technologies: ['Rust', 'Systemd', 'systemctl', 'linux'],
+      liveLink: '#',
+      githubLink: 'https://github.com/ShauryaManiTripathi/IIITG-auto-firewall-auth',
       downloadUrl: '#',
       featured: false
+    },
+    {
+      id: 8,
+      title: 'PilgrimAI - Mobile/Web App',
+      description: 'Mental Health Assistant on the go, providing personalized support and resources for mental well-being.',
+      image: pilgrimimage,
+      categories: ['mobile','web'],
+      technologies: ['Flutter', 'Dart','Python','Flask'],
+      liveLink: 'https://pilgrimai.vercel.app/',
+      githubLink: 'https://github.com/ShauryaManiTripathi/PILGRIMAI',
+      downloadUrl: 'https://github.com/ShauryaManiTripathi/PILGRIMAI/releases/download/Appv3/app-release.apk',
+      featured: true
     },
   ];
   

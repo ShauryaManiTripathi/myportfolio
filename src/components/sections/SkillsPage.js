@@ -1,15 +1,20 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import { FiLayers, FiDatabase, FiTool } from 'react-icons/fi';
+import { FiLayers, FiDatabase, FiTool, FiCloud, FiCpu, FiSmartphone } from 'react-icons/fi';
 import { Section, SectionTitle, Card, fadeInUpVariants, staggerContainerVariants } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 
 const SkillsGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
   margin-bottom: 4rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 `;
 
 const SkillCard = styled(Card)`
@@ -85,6 +90,15 @@ const ProgressBar = styled(motion.div)`
 
 const ExperienceContainer = styled.div`
   margin-top: 4rem;
+`;
+
+const SectionDescription = styled.p`
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  line-height: 1.6;
 `;
 
 const Timeline = styled.div`
@@ -187,36 +201,110 @@ const SkillsPage = () => {
   
   const skillCategories = [
     {
-      title: 'Frontend',
+      title: 'Programming Languages',
+      icon: <FiCpu />,
+      skills: [
+        { name: 'Python', level: 'Advanced', percentage: 95 },
+        { name: 'JavaScript', level: 'Advanced', percentage: 90 },
+        { name: 'TypeScript', level: 'Advanced', percentage: 85 },
+        { name: 'Go', level: 'Intermediate', percentage: 80 },
+        { name: 'C++', level: 'Intermediate', percentage: 75 },
+        { name: 'Java', level: 'Intermediate', percentage: 75 },
+        { name: 'Rust', level: 'Intermediate', percentage: 70 },
+        { name: 'Dart', level: 'Intermediate', percentage: 70 },
+      ],
+    },
+    {
+      title: 'Frontend & Web',
       icon: <FiLayers />,
       skills: [
         { name: 'React.js', level: 'Advanced', percentage: 95 },
-        { name: 'JavaScript', level: 'Advanced', percentage: 90 },
-        { name: 'TypeScript', level: 'Intermediate', percentage: 80 },
         { name: 'HTML/CSS', level: 'Advanced', percentage: 95 },
-        { name: 'Framer Motion', level: 'Intermediate', percentage: 75 },
+        { name: 'Framer Motion', level: 'Advanced', percentage: 85 },
+        { name: 'Emotion CSS', level: 'Advanced', percentage: 80 },
+        { name: 'React Router', level: 'Advanced', percentage: 80 },
+        { name: 'Chart.js', level: 'Intermediate', percentage: 75 },
+        { name: 'SCSS', level: 'Intermediate', percentage: 75 },
       ],
     },
     {
-      title: 'Backend',
+      title: 'Backend & APIs',
       icon: <FiDatabase />,
       skills: [
-        { name: 'Node.js', level: 'Intermediate', percentage: 75 },
-        { name: 'Express', level: 'Intermediate', percentage: 80 },
-        { name: 'MongoDB', level: 'Intermediate', percentage: 70 },
-        { name: 'GraphQL', level: 'Basic', percentage: 60 },
-        { name: 'RESTful APIs', level: 'Advanced', percentage: 85 },
+        { name: 'Node.js', level: 'Advanced', percentage: 85 },
+        { name: 'Express.js', level: 'Advanced', percentage: 85 },
+        { name: 'Flask', level: 'Advanced', percentage: 90 },
+        { name: 'RESTful APIs', level: 'Advanced', percentage: 90 },
+        { name: 'GraphQL', level: 'Intermediate', percentage: 70 },
+        { name: 'OpenWeather API', level: 'Intermediate', percentage: 75 },
       ],
     },
     {
-      title: 'Other',
+      title: 'Databases',
+      icon: <FiDatabase />,
+      skills: [
+        { name: 'PostgreSQL', level: 'Advanced', percentage: 85 },
+        { name: 'MongoDB', level: 'Advanced', percentage: 80 },
+        { name: 'SQL', level: 'Advanced', percentage: 90 },
+        { name: 'Vector Databases', level: 'Intermediate', percentage: 75 },
+      ],
+    },
+    {
+      title: 'AI & Machine Learning',
+      icon: <FiCpu />,
+      skills: [
+        { name: 'LangChain', level: 'Advanced', percentage: 85 },
+        { name: 'Agentic Systems', level: 'Advanced', percentage: 90 },
+        { name: 'RAG (Retrieval Augmented Generation)', level: 'Advanced', percentage: 85 },
+        { name: 'Google GenAI', level: 'Advanced', percentage: 80 },
+        { name: 'Ollama', level: 'Intermediate', percentage: 75 },
+        { name: 'TensorFlow', level: 'Intermediate', percentage: 70 },
+        { name: 'OpenVoice', level: 'Intermediate', percentage: 70 },
+      ],
+    },
+    {
+      title: 'Cloud & DevOps',
+      icon: <FiCloud />,
+      skills: [
+        { name: 'AWS EC2', level: 'Advanced', percentage: 85 },
+        { name: 'AWS S3', level: 'Advanced', percentage: 80 },
+        { name: 'AWS RDS', level: 'Intermediate', percentage: 75 },
+        { name: 'AWS Elastic Beanstalk', level: 'Intermediate', percentage: 70 },
+        { name: 'Docker', level: 'Advanced', percentage: 85 },
+        { name: 'Nginx', level: 'Intermediate', percentage: 75 },
+        { name: 'Git CI/CD', level: 'Advanced', percentage: 90 },
+        { name: 'Auto Scaling', level: 'Intermediate', percentage: 70 },
+      ],
+    },
+    {
+      title: 'Mobile Development',
+      icon: <FiSmartphone />,
+      skills: [
+        { name: 'Flutter', level: 'Advanced', percentage: 85 },
+        { name: 'React Native', level: 'Intermediate', percentage: 75 },
+        { name: 'HealthKit Integration', level: 'Intermediate', percentage: 70 },
+        { name: 'Google Fit API', level: 'Intermediate', percentage: 70 },
+      ],
+    },
+    {
+      title: 'Big Data & Analytics',
+      icon: <FiDatabase />,
+      skills: [
+        { name: 'Hadoop', level: 'Intermediate', percentage: 70 },
+        { name: 'Apache Spark', level: 'Intermediate', percentage: 70 },
+        { name: 'Data Pipeline Design', level: 'Intermediate', percentage: 75 },
+      ],
+    },
+    {
+      title: 'Tools & Other',
       icon: <FiTool />,
       skills: [
-        { name: 'Git', level: 'Advanced', percentage: 90 },
-        { name: 'UI/UX Design', level: 'Intermediate', percentage: 75 },
-        { name: 'Responsive Design', level: 'Advanced', percentage: 95 },
-        { name: 'Performance Optimization', level: 'Intermediate', percentage: 80 },
-        { name: 'Testing', level: 'Basic', percentage: 65 },
+        { name: 'Git', level: 'Advanced', percentage: 95 },
+        { name: 'UI/UX Design', level: 'Advanced', percentage: 80 },
+        { name: 'Figma', level: 'Intermediate', percentage: 75 },
+        { name: 'Performance Optimization', level: 'Advanced', percentage: 85 },
+        { name: 'System Architecture', level: 'Advanced', percentage: 80 },
+        { name: 'Problem Solving', level: 'Advanced', percentage: 95 },
       ],
     },
   ];
@@ -263,7 +351,13 @@ const SkillsPage = () => {
   return (
     <>
       <Section>
-        <SectionTitle>My Skills</SectionTitle>
+        <SectionTitle>My Skills & Technologies</SectionTitle>
+        
+        <SectionDescription>
+          From crafting lightning-fast backend systems with Go and Python to building intuitive React interfaces, 
+          I bring both technical depth and creative problem-solving to every project. Here's my comprehensive 
+          technology stack across full-stack development, AI/ML, cloud infrastructure, and mobile development.
+        </SectionDescription>
         
         <SkillsGrid
           variants={staggerContainerVariants}

@@ -338,7 +338,7 @@ const skills = [
             </BioText>
             
             <BioText>
-              My foundation is rock-solid: enterprise-grade databases (SQL, PostgreSQL, Vector DBs), cloud infrastructure (Docker, AWS), and DevOps practices (Git CI/CD) that ensure your products scale seamlessly. I don't just build features – <SubtleEmphasis theme={theme}>I build systems that grow with your business</SubtleEmphasis>.
+              My foundation is rock-solid: enterprise-grade databases (SQL, PostgreSQL, Vector DBs), cloud infrastructure <SubtleEmphasis theme={theme}>(Docker, AWS, Nginx, EC2, S3, Autoscaling, RDS, BeanStalk, Hadoop, Spark)</SubtleEmphasis>, and DevOps practices (Git CI/CD) that ensure your products scale seamlessly. I don't just build features – <SubtleEmphasis theme={theme}>I build systems that grow with your business</SubtleEmphasis>.
             </BioText>
 
             <BioText>
