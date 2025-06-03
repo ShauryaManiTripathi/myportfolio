@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { FiDownload, FiUser, FiCode, FiBook } from 'react-icons/fi';
-import { Section, SectionTitle, Avatar, Card, Button, ExternalLink, TagsContainer, Tag, fadeInUpVariants } from '../../components/ui';
+import { Section, SectionTitle, Avatar, Card, ExternalLink, TagsContainer, Tag, fadeInUpVariants } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 
 const ResponsiveContainer = styled.div`
@@ -305,9 +305,9 @@ const skills = [
             <Name>Shaurya Mani Tripathi</Name>
             <Title theme={theme}>Full-Stack Developer</Title>
             
-            <Button primary whileHover={{ scale: 1.05 }}>
+            <ExternalLink primary href="/assets/resume_shauryamanitripathi.pdf">
               <FiDownload /> Download Resume
-            </Button>
+            </ExternalLink>
             
             <InfoCard theme={theme} style={{ marginTop: '2rem' }}>
               {personalInfo.map((info, index) => (
