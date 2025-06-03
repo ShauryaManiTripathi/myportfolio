@@ -5,7 +5,7 @@ import { FiArrowDown, FiCode, FiExternalLink, FiZap, FiHeart, FiGithub, FiDownlo
 import { FaPalette } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
-import { Button, ExternalLink, Section, SectionTitle, Grid, fadeInUpVariants, staggerContainerVariants, TagsContainer, Tag } from '../../components/ui';
+import { Button, ExternalLink, Section, SectionTitle, Grid, fadeInUpVariants, staggerContainerVariants, TagsContainer, Tag, Card } from '../../components/ui';
 import { useTheme } from '../../context/ThemeContext';
 import { FaFlutter } from "react-icons/fa6";
 import { BsFiletypeExe } from "react-icons/bs";
@@ -197,7 +197,7 @@ const ViewAllButton = styled(motion.div)`
   justify-content: center;
 `;
 
-const ProjectCard = styled(ShimmerCard)`
+const ProjectCard = styled(Card)`
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -583,12 +583,6 @@ const HomePage = () => {
                 custom={index}
                 whileHover={{ y: -10 }}
                 transition={{ duration: 0.3 }}
-                shimmerOptions={{
-                  gap: 10,
-                  fadeSpeed: 0.08,
-                  pixelSize: 1.5,
-                  density: 0.2
-                }}
               >
                 {project.featured && (
                   <FeaturedBadge theme={theme}>
