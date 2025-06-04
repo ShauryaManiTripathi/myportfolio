@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { FiDownload, FiUser, FiCode, FiBook } from 'react-icons/fi';
-import { Se            <Name>Your Name</Name>
+import { Se            <Name>Shaurya</Name>
             <Title theme={theme}>Full-Stack Developer</Title>
             
             <ExternalLink href="/assets/resume_shauryamanitripathi.pdf" primary>
@@ -185,12 +185,12 @@ const AboutPage = () => {
               theme={theme}
               size="180px"
               src="https://via.placeholder.com/500"
-              alt="Your Name"
+              alt="Shaurya"
               whileHover={{ scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 400, damping: 10 }}
             />
             
-            <Name>Your Name</Name>
+            <Name>Shaurya</Name>
             <Title theme={theme}>Full-Stack Developer</Title>
             
             <Button primary whileHover={{ scale: 1.05 }}>

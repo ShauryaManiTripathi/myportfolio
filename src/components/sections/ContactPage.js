@@ -283,7 +283,7 @@ const ContactPage = () => {
           <ContactForm theme={theme}>
             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             <FormGroup>
-              <Label htmlFor="name">Your Name</Label>
+              <Label htmlFor="name">Shaurya</Label>
               <Input
                 theme={theme}
                 type="text"

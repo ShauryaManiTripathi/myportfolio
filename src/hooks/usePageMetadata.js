@@ -10,23 +10,23 @@ const defaultMetadata = {
 // Page-specific metadata
 const pageMetadata = {
   '/': {
-    title: 'Home - Your Name | Portfolio',
+    title: 'Home - Shaurya | Portfolio',
     description: 'Welcome to my portfolio. I create elegant web solutions with modern technologies.',
   },
   '/about': {
-    title: 'About Me - Your Name | Portfolio',
+    title: 'About Me - Shaurya | Portfolio',
     description: 'Learn more about my skills, experience, and journey as a web developer.',
   },
   '/projects': {
-    title: 'Projects - Your Name | Portfolio',
+    title: 'Projects - Shaurya | Portfolio',
     description: 'Explore my recent web development projects and applications.',
   },
   '/skills': {
-    title: 'Skills - Your Name | Portfolio',
+    title: 'Skills - Shaurya | Portfolio',
     description: 'Discover my technical skills and expertise in web development.',
   },
   '/contact': {
-    title: 'Contact - Your Name | Portfolio',
+    title: 'Contact - Shaurya | Portfolio',
     description: 'Get in touch with me for collaboration, job opportunities, or just to say hello.',
   },
 };
